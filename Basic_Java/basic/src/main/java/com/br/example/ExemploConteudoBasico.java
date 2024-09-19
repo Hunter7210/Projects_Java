@@ -66,7 +66,7 @@ public class ExemploConteudoBasico {
 
     }
 
-    public void tryCatch() {
+    public void tryCa() {
         try {
             int resultado = 10 / 0;  // Lança ArithmeticException
         } catch (ArithmeticException e) {
