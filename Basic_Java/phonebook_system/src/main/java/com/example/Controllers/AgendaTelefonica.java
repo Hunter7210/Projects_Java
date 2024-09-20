@@ -47,7 +47,7 @@ public class AgendaTelefonica {
 
         for (int i = 0; i < contator; i++) {
             if (contatos[i].getNome().equalsIgnoreCase(busca)) {
-                System.out.println(contatos[i].toString());
+                
                 return contatos[i];
             }
         }

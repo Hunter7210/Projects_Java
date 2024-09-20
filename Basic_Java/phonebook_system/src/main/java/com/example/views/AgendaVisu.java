@@ -59,10 +59,19 @@ public class AgendaVisu {
                         agenda.listarContatos();
                         break;
                     case 2:
-                        agenda.buscarNome();
+                        try {
+                            System.out.println(agenda.buscarNome().toString());
+
+                        } catch (Exception e) {
+                            System.err.println(e);
+                        }
                         break;
                     case 3:
-                        agenda.removerContato();
+                        try {
+                            agenda.removerContato();
+                        } catch (Exception e) {
+                            System.err.println(e);
+                        }
                         break;
                     case 4:
                         break;
