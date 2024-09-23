@@ -1,6 +1,7 @@
 package com.example.Controllers;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.example.Models.Aluno;
 import com.example.Models.Professor;
@@ -8,44 +9,124 @@ import com.example.Models.Professor;
 public class Curso {
 
     private String nomeCurso;
+    private List<Aluno> alunos;
+    private List<Professor> professores;
+    private List<Curso> cursos;
 
-    ArrayList<Aluno> alunos = new ArrayList<>();
-    ArrayList<Professor> professores = new ArrayList<>();
+    public Curso() {
+        alunos = new ArrayList<>();
+        professores = new ArrayList<>();
+        cursos = new ArrayList<>();
+
+    }
 
     public void exibirProfessores() {
-        for (int i = 0; i < professores.size(); i++) {
-            System.out.println(professores.get(i));
+
+        if (professores.isEmpty()) {
+            System.out.println("Não ha nenhum funcionario cadastrado");
+        } else {
+            // Percorrer até que (FOREACH)
+            for (Professor professor : professores) { // Para cada linha do meu ArrayList crie um objeto chamado
+                                                      // funcionario
+                System.out.println(professor.toString());
+            }
         }
     }
 
     public void exibirAlunos() {
-        for (int i = 0; i < alunos.size(); i++) {
-            System.out.println(alunos.get(i));
+        if (alunos.isEmpty()) {
+            System.out.println("Não ha nenhum funcionario cadastrado");
+        } else {
+            // Percorrer até que (FOREACH)
+            for (Aluno aluno : alunos) { // Para cada linha do meu ArrayList crie um objeto chamado
+                                         // funcionario
+                System.out.println(aluno.toString());
+            }
         }
     }
 
     public void adicionarAluno(Aluno aluno) {
-        for (int i = 0; i < alunos.size(); i++) {
+        try {
             alunos.add(aluno);
+            System.out.println("Cadastrado com sucesso");
+        } catch (Exception e) {
+            System.out.println(e);
         }
     }
 
-    public void exibirInformacoesCurso() {
-        System.out.println();
+    public void adicionarProfessor(Professor professor) {
+        try {
+            professores.add(professor);
+            System.out.println("Cadastrado com sucesso");
+        } catch (Exception e) {
+            System.out.println(e);
+        }
     }
 
+    public String buscarAluno(String nome) {
+        if (alunos.isEmpty()) {
+            System.out.println("Não ha nenhum aluno cadastrado");
+        } else {
 
- /* Metodo para calcular a media salarial */
- public void mediaNota() {
-    double media = 0;
-    double soma = 0;
+            for (Aluno aluno : alunos) {
+                try {
+                    if (aluno.getNome().equalsIgnoreCase(nome)) {
+                        System.out.println(aluno.toString());
+                        return aluno.getNome();
+                    } else {
+                        throw new Exception("Funcionario não encontrado!");
+                    }
+                } catch (Exception e) {
+                    System.out.println(e);
+                }
 
-    for (int i = 0; i < alunos.size(); i++) {
-        soma += alunos.get(i).getNota();
+            }
+        }
+        return nome;
+    }
+    public String buscarProfessor(String nome) {
+        if (alunos.isEmpty()) {
+            System.out.println("Não ha nenhum aluno cadastrado");
+        } else {
 
+            for (Professor professor : professores) {
+                try {
+                    if (professor.getNome().equalsIgnoreCase(nome)) {
+                        System.out.println(professor.toString());
+                        return professor.getNome();
+                    } else {
+                        throw new Exception("Funcionario não encontrado!");
+                    }
+                } catch (Exception e) {
+                    System.out.println(e);
+                }
+
+            }
+        }
+        return nome;
     }
 
-    media = soma / alunos.size();
-    System.out.println(media);
-}
+    public void addCurso(Curso curso, String nome , String busca) {
+
+        String nomeAluno = buscarAluno(nome);
+        String nomeProfessor = buscarProfessor(busca);
+
+                cursos.add(curso);
+    }
+
+    /* Metodo para calcular a media salarial */
+    /*
+     * public void mediaNota() {
+     * double media = 0;
+     * double soma = 0;
+     * 
+     * for (int i = 0; i < alunos.size(); i++) {
+     * soma += alunos.get(i).getNota();
+     * 
+     * }
+     * 
+     * media = soma / alunos.size();
+     * System.out.println(media);
+     * }
+     */
 }

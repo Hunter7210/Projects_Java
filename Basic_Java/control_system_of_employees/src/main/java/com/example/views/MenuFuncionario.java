@@ -9,12 +9,14 @@ public class MenuFuncionario {
     JOptionPane pane = new JOptionPane();
     FuncionariosController funcionariosControler = new FuncionariosController();
     Funcionario funcionario = new Funcionario();
-    int operador = 0;
+
+    int operacao = 0;
     String[] opcoes = {
-            "Adicionar Contato",
-            "Listar Contatos",
-            "Buscar Contatos",
-            "Remover Contatos",
+            "Adicionar Funcionario",
+            "Listar Funcionarios",
+            "Buscar Funcionarios",
+            "Remover Funcionarios",
+            "Media Salarial Funcionarios",
             "Sair"
     };
 
@@ -24,7 +26,7 @@ public class MenuFuncionario {
         try {
             do {
                 try {
-                    operador = JOptionPane.showOptionDialog(null,
+                    operacao = JOptionPane.showOptionDialog(null,
                             "---- Gerenciamento de Cadastro ----",
                             "Menu",
                             JOptionPane.DEFAULT_OPTION,
@@ -35,52 +37,48 @@ public class MenuFuncionario {
 
                 } catch (NumberFormatException e) {
                     System.err.println(e);
-                    operador = 0;
+                    operacao = 0;
                 }
                 /*
-                 * operador = Integer.parseInt(JOptionPane.showInputDialog("Digite a operação",
+                 * operacao = Integer.parseInt(JOptionPane.showInputDialog("Digite a operação",
                  * null));
                  */
-                switch (operador) {
+                switch (operacao) {
                     case 0:
-                        try {
-                            String nome = JOptionPane.showInputDialog("Digite o nome");
-                            int idade = Integer.parseInt(JOptionPane.showInputDialog("Digite o idade"));
-                            double salario = Double.parseDouble(JOptionPane.showInputDialog("Digite o salario"));
 
-                            Funcionario funcionario = new Funcionario(nome, idade, salario);
-                            
-                            funcionariosControler.addFuncionario(funcionario);
+                        String nome = JOptionPane.showInputDialog("Digite o nome");
+                        int idade = Integer.parseInt(JOptionPane.showInputDialog("Digite o idade"));
+                        double salario = Double.parseDouble(JOptionPane.showInputDialog("Digite o salario"));
 
-                        } catch (Exception e) {
-                            System.out.println(e);
-                        }
+                        Funcionario funcionario = new Funcionario(nome, idade, salario);
+
+                        funcionariosControler.addFuncionario(funcionario);
+
                         break;
                     case 1:
-                        funcionariosControler.buscarFuncionario();
+                        funcionariosControler.listarFuncionario();
                         break;
                     case 2:
-                        try {
-                            funcionariosControler.removeFuncionario();
-
-                        } catch (Exception e) {
-                            System.err.println(e);
-                        }
+                        String busca = JOptionPane.showInputDialog("Digite o nome para buscar: ");
+                        funcionariosControler.buscarFuncionario(busca);
                         break;
                     case 3:
-                        try {
-                            funcionariosControler.mediaSalario();
-                        } catch (Exception e) {
-                            System.err.println(e);
-                        }
+                        String buscaRemo = JOptionPane.showInputDialog("Digite o nome para remover: ");
+                        funcionariosControler.removeFuncionario(buscaRemo);
                         break;
+
                     case 4:
+                        
+                            funcionariosControler.mediaSalario();
+                        
+                        break;
+                    case 5:
                         break;
                     default:
-                        break;
+                        System.out.println("Escolha um opção válida");
                 }
 
-            } while (operador != 5);
+            } while (operacao != 5);
             {
                 /* throw new AgendaCheiaException("Agenda Cheia"); */
 

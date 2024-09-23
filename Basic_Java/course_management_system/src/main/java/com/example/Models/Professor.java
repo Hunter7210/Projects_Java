@@ -5,9 +5,8 @@ public class Professor extends Pessoa {
 
 
     @Override
-    public void exibirInformacoes(Pessoa pessoa) {
-        System.out.println(salario);
-        super.exibirInformacoes(pessoa);
+    public String exibirInformacoes(Pessoa pessoa) {
+        return "Salario: " +salario ;/*+    super.exibirInformacoes(pessoa); */
     }
 
 

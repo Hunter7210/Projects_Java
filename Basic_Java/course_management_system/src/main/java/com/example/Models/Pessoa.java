@@ -1,33 +1,22 @@
 package com.example.Models;
 
-import java.util.ArrayList;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 
 public class Pessoa {
     /* Atributos */
     private String nome;
-    private String CPF;
+    private String cpf;
 
-    public void exibirInformacoes(Pessoa pessoa) {
-
-        System.out.println(nome);
-        System.out.println(CPF);
-    }
-
-    /* Getters and Setters */
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public String getCPF() {
-        return CPF;
-    }
-
-    public void setCPF(String cPF) {
-        CPF = cPF;
+    public String exibirInformacoes(Pessoa pessoa) {
+        return "Nome " + nome + ", CPF " + cpf;
     }
 
 }

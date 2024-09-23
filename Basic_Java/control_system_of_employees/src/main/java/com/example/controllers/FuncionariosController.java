@@ -1,6 +1,7 @@
 package com.example.controllers;
 
 import java.util.ArrayList;
+import java.util.List; //Serve apenas para a interface
 
 import javax.swing.JOptionPane;
 
@@ -8,60 +9,97 @@ import com.example.models.Funcionario;
 
 public class FuncionariosController {
 
-    ArrayList<Funcionario> funcionarios = new ArrayList<>();
+    private List<Funcionario> funcionarios;
+
+    public FuncionariosController() {
+        funcionarios = new ArrayList<>(); // Lista dinamica
+    }
 
     /* Criação de um CRUD */
 
     /* ADD */
     public void addFuncionario(Funcionario funcionario) {
-        if (funcionarios.isEmpty()) {
-            /* Return erro */
-        } else {
+        try {
             funcionarios.add(funcionario);
             System.out.println("Cadastrado com sucesso");
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+
+    /* GET */
+    public void listarFuncionario() {
+        if (funcionarios.isEmpty()) {
+            System.out.println("Não ha nenhum funcionario cadastrado");
+        } else {
+            // Percorrer até que (FOREACH)
+            for (Funcionario funcionario : funcionarios) { // Para cada linha do meu ArrayList crie um objeto chamado
+                                                           // funcionario
+                System.out.println(funcionario.toString());
+            }
         }
 
     }
 
-    /* GET */
-    public void buscarFuncionario() {
+    public void buscarFuncionario(String nome) {
         if (funcionarios.isEmpty()) {
-            /* Return erro */
+            System.out.println("Não ha nenhum funcionario cadastrado");
         } else {
-            for (int i = 0; i < funcionarios.size(); i++) {
-                funcionarios.get(i);
 
-                System.out.println(funcionarios.get(i));
+            for (Funcionario funcionario : funcionarios) {
+                try {
+                    if (funcionario.getNome().equalsIgnoreCase(nome)) {
+                        System.out.println(funcionario.toString());
+                    } else {
+                        throw new Exception("Funcionario não encontrado!");
+                    }
+                } catch (Exception e) {
+                    System.out.println(e);
+                }
+
             }
         }
 
     }
 
     /* Remove */
-    public void removeFuncionario() {
-        String busca = JOptionPane.showInputDialog("Digite o nome para buscar: ");
+    public void removeFuncionario(String nome) {
 
-        for (int i = 0; i < funcionarios.size(); i++) {
-            if (funcionarios.get(i).getNome().equalsIgnoreCase(busca)) {
-                String funcionari = funcionarios.get(i).getNome();
-                funcionarios.remove(funcionarios.get(i));
-                System.out.println("Funcionario"+funcionari + "removido com sucesso");
+        try {
+            for (Funcionario funcionario : funcionarios) {
+
+                if (funcionario.getNome().equalsIgnoreCase(nome)) {
+                    String nomeFunc = funcionario.getNome();
+                    funcionarios.remove(funcionario); // REMOVE o objeto do meu funcionario
+                    System.out.println("Funcionario " + nomeFunc + " removido com sucesso");
+
+                } else {
+                    throw new Exception("Funcionario não encontrado!");
+                }
             }
-        }
+        } catch (Exception e) {
+            System.out.println(e);
 
+        }
     }
 
     /* Metodo para calcular a media salarial */
-    public void mediaSalario() {
-        double media = 0;
-        double soma = 0;
+    public double mediaSalario() {
+        try {
+            double mediaSal = 0;
+            if (funcionarios.isEmpty()) {
+                return 0;
+            }
+            for (Funcionario funcionario : funcionarios) {
+                mediaSal += funcionario.getSalario();
+            }
 
-        for (int i = 0; i < funcionarios.size(); i++) {
-            soma += funcionarios.get(i).getSalario();
+            System.out.println("Média salarial " + mediaSal);
 
+            return mediaSal / funcionarios.size();
+        } catch (ArithmeticException e) {
+            System.err.println(e);
         }
-
-        media = soma / funcionarios.size();
-        System.out.println(media);
+        return 0;
     }
 }
