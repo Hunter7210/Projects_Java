@@ -9,16 +9,38 @@ import com.example.Models.Professor;
 public class Curso {
 
     private String nomeCurso;
+
     private List<Aluno> alunos;
-    private List<Professor> professores;
+    private Professor professor;
     private List<Curso> cursos;
 
-    public Curso() {
-        alunos = new ArrayList<>();
-        professores = new ArrayList<>();
-        cursos = new ArrayList<>();
+    public Curso(String nomeCurso) {
+        this.nomeCurso = nomeCurso;
 
+        alunos = new ArrayList<>();
     }
+
+    //Adicionar Professor no curso
+    public void addProfessor(Professor professor) {
+        this.professor = professor;
+    }
+
+    //Adicionar Aluno no curso
+    public void addAluno(Aluno aluno) {
+        alunos.add(aluno);
+    }
+
+    //Lançar notas
+    public void lancarNotas(String nomeAluno, double nota) {
+        
+    }
+
+
+
+
+
+
+
 
     public void exibirProfessores() {
 
@@ -45,24 +67,6 @@ public class Curso {
         }
     }
 
-    public void adicionarAluno(Aluno aluno) {
-        try {
-            alunos.add(aluno);
-            System.out.println("Cadastrado com sucesso");
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-    }
-
-    public void adicionarProfessor(Professor professor) {
-        try {
-            professores.add(professor);
-            System.out.println("Cadastrado com sucesso");
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-    }
-
     public String buscarAluno(String nome) {
         if (alunos.isEmpty()) {
             System.out.println("Não ha nenhum aluno cadastrado");
@@ -84,6 +88,7 @@ public class Curso {
         }
         return nome;
     }
+
     public String buscarProfessor(String nome) {
         if (alunos.isEmpty()) {
             System.out.println("Não ha nenhum aluno cadastrado");
@@ -106,12 +111,12 @@ public class Curso {
         return nome;
     }
 
-    public void addCurso(Curso curso, String nome , String busca) {
+    public void addCurso(Curso curso, String nome, String busca) {
 
         String nomeAluno = buscarAluno(nome);
         String nomeProfessor = buscarProfessor(busca);
 
-                cursos.add(curso);
+        cursos.add(curso);
     }
 
     /* Metodo para calcular a media salarial */

@@ -3,20 +3,16 @@ package com.example.Models;
 public class Professor extends Pessoa {
     private double salario;
 
+    public Professor(String nome, String cpf, String matricula) {
+        super(nome, cpf);
+        this.salario = salario;
+
+    }
 
     @Override
-    public String exibirInformacoes(Pessoa pessoa) {
-        return "Salario: " +salario ;/*+    super.exibirInformacoes(pessoa); */
+    // Polimorfismo - sobreescrita
+    public String exibirInfo() {
+        super.exibirInfo();
+        return "Salario: " + salario;
     }
-
-
-    public double getSalario() {
-        return salario;
-    }
-
-
-    public void setSalario(double salario) {
-        this.salario = salario;
-    }
-    
 }
