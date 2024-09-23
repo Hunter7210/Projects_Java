@@ -31,29 +31,31 @@ public class Curso {
     }
 
     //Lançar notas
-    public void lancarNotas(String nomeAluno, double nota) {
-        
+    public void lancarNotas(String nomeAluno, double notaAluno) {
+        for (Aluno aluno : alunos) {
+            if (aluno.getNome().equalsIgnoreCase(nomeAluno)) {
+                aluno.setNota(notaAluno);
+                System.out.println("Nota inserida com sucesso");
+                return; //Interronpe meu laço de repetição
+            } 
+        }
+        System.out.println("Aluno não encontrado");
     }
 
-
-
-
-
-
-
-
-    public void exibirProfessores() {
-
-        if (professores.isEmpty()) {
-            System.out.println("Não ha nenhum funcionario cadastrado");
-        } else {
-            // Percorrer até que (FOREACH)
-            for (Professor professor : professores) { // Para cada linha do meu ArrayList crie um objeto chamado
-                                                      // funcionario
-                System.out.println(professor.toString());
-            }
+    //Exibir nota final de todos os alunos
+    public void resultadoFinal() {
+        for (Aluno aluno : alunos) {
+            System.out.println(aluno.exibirInfo());
+            aluno.avaliarDesempenho();
         }
     }
+
+
+
+
+
+
+
 
     public void exibirAlunos() {
         if (alunos.isEmpty()) {
@@ -89,27 +91,6 @@ public class Curso {
         return nome;
     }
 
-    public String buscarProfessor(String nome) {
-        if (alunos.isEmpty()) {
-            System.out.println("Não ha nenhum aluno cadastrado");
-        } else {
-
-            for (Professor professor : professores) {
-                try {
-                    if (professor.getNome().equalsIgnoreCase(nome)) {
-                        System.out.println(professor.toString());
-                        return professor.getNome();
-                    } else {
-                        throw new Exception("Funcionario não encontrado!");
-                    }
-                } catch (Exception e) {
-                    System.out.println(e);
-                }
-
-            }
-        }
-        return nome;
-    }
 
     public void addCurso(Curso curso, String nome, String busca) {
 
