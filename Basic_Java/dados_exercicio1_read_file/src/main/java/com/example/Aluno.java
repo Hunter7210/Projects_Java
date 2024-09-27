@@ -43,10 +43,14 @@ public class Aluno {
     public double menorNota() {
         double menorNota = 10;
         for (Double nota : notas) {
-            if (nota < menorNota) {
+            if (menorNota > nota) {
                 menorNota = nota;
             }
         }
         return menorNota;
+    }
+
+    public String getNome() {
+        return nome;
     }
 }

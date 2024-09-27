@@ -2,6 +2,11 @@ package com.example;
 
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Hello world!");
+        AlunoIOReader al = new AlunoIOReader();
+        System.out.println("A media da turma é " + al.mediaAlunos());
+        System.out.println(al.alunoComMaiorNota());
+        System.out.println(al.alunoComMenorNota());
+
+
     }
 }
