@@ -6,15 +6,15 @@ import java.util.List;
 import com.example.Models.Aluno;
 import com.example.Models.Professor;
 
-public class Curso {
+public class CursoController {
 
     private String nomeCurso;
 
     private List<Aluno> alunos;
     private Professor professor;
-    private List<Curso> cursos;
+    private List<CursoController> cursos;
 
-    public Curso(String nomeCurso) {
+    public CursoController(String nomeCurso) {
         this.nomeCurso = nomeCurso;
 
         alunos = new ArrayList<>();
@@ -54,7 +54,7 @@ public class Curso {
 
 
 
-
+/* 
 
 
     public void exibirAlunos() {
@@ -98,7 +98,7 @@ public class Curso {
         String nomeProfessor = buscarProfessor(busca);
 
         cursos.add(curso);
-    }
+    } */
 
     /* Metodo para calcular a media salarial */
     /*
