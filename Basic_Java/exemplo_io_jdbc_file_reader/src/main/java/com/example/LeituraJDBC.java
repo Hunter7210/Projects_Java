@@ -9,14 +9,14 @@ public class LeituraJDBC {
 
     public void test() {
         try {
-            Connection con = DriverManager.getConnection("jdbc:mongodb://localhost:27017/recipe_book_project", "mongo",
-                    "mongo");
+            Connection con = DriverManager.getConnection("jdbc:postgresql://localhost:5432/myDB", "postgres",
+                    "postgres");
             Statement stmt = con.createStatement();
 
             ResultSet rs = stmt.executeQuery("SELECT * FROM usuarios");
 
             while (rs.next()) {
-                System.out.println("Nome Receita:" + rs.getString("nomeReceita"));
+                System.out.println("id: " + rs.getInt("id") + ", Nome:" + rs.getString("nome"));
             }
             con.close();
         } catch (Exception e) {
