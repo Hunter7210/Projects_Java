@@ -1,4 +1,4 @@
-package com.example.Models;
+package com.example;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -7,15 +7,13 @@ import lombok.Setter;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
 @Setter
-abstract class Produto {
-
+@Getter
+public abstract class Produto {
     private String nome;
     private double preco;
 
-    public double calcularPeso(double peso1, double peso2) {
-        return peso1 + peso2;
-    }
+    // Calcular Peso
+    public abstract double calcularPeso();
 
 }
