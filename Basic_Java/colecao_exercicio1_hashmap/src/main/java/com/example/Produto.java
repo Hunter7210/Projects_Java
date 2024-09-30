@@ -15,4 +15,10 @@ public class Produto {
     private String nome;
     private double preco;
 
+    //Metodo para exibir o produto
+    @Override
+    public String toString(){
+        return "Nome: " + nome + " Preco: " + preco;
+    }
+
 }

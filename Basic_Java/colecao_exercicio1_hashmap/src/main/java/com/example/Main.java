@@ -23,14 +23,14 @@ public class Main {
 
                 case "2":
                     String cpfCliente = JOptionPane.showInputDialog("Informe o CPF do Cliente");
-                    System.out.println(vendas.listarProdUsu(cpfCliente));
+                    System.out.println(vendas.listarProdUsu(cpfCliente).toString());
                     break;
                 case "3":
                     String cpfUsuario = JOptionPane.showInputDialog("Informe o CPF do Cliente");
                     double valorMinimo = Double.parseDouble(JOptionPane.showInputDialog("Informe o valor minimo"));
 
                     try {
-                        System.out.println(vendas.listarProdutosFiltro(cpfUsuario, valorMinimo));
+                        System.out.println(vendas.listarProdutosFiltro(cpfUsuario, valorMinimo).toString());
                     } catch (Exception e) {
                         System.err.println(e);
                     }
