@@ -1,0 +1,95 @@
+Diagrama de classe no mermaid:
+classDiagram
+    class Equipamento {
+        +String nomeEqui
+        +Date dataCompraEquip
+        +String tipoEquip
+        +String fornecEquip
+        +int qtdSensorEquip
+        +String statusEquip
+        
+        +adicionarEquip()
+        +visualizarTodoEquip()
+        +visualizarEspeEquip()
+        +deletarEquip()
+        +atualizarEquip()
+
+        Sensor[] sensores
+        Manutencao[] manutencoes
+        QRCode[] qrCodes
+    }
+
+    class Sensor {
+        +String nomeSen
+        +String fornecSen
+        +String funSen
+        
+        +adicionarSenso()
+        +visualizarTodoSenso()
+        +visualizarEspeSenso()
+        +deletarSenso()
+        +atualizarSenso()
+    }
+
+    class Manutencao {
+        +Date dataIniManut
+        +Date dataFimManut
+        +String tipoManut
+        +String statusManut
+
+        +adicionarManut()
+        +visualizarTodoManut()
+        +visualizarEspeManut()
+        +atualizarManut()
+        +calcularProxManut()
+
+        EmpresaManu[] empresaManut
+    }
+
+    class EmpresaManu {
+        +String cnpjEmpresa
+        +String nomeEmpresa
+        +String enderecoEmpresa
+        +String telefoneEmpresa
+        +String cidadeEmpresa
+        +String emailEmpresa
+
+        +adicionarEmpre()
+        +visualizarTodoEmpre()
+        +visualizarEspeEmpre()
+        +deletarEmpresa()
+        +atualizarEmpre()
+    }
+
+    class QRCode {
+        +String imgQr
+        +String titQr
+        +String descQr
+        
+        +gerarQRCode()
+    }
+
+    class Funcionario {
+        +String nomeFunc
+        +String reFunc
+        +String setorFunc
+        +String cargoFunc
+        +String telefoneFunc
+        +String emailFunc
+	+String senhaFunc
+        
+        +adicionarFunc()
+        +visualizarTodoFunc()
+        +visualizarEspeFunc()
+        +deletarFunc()
+        +atualizarFunc()
+    }
+
+    Equipamento --> Sensor
+    Equipamento --> Manutencao
+    Manutencao --> EmpresaManu
+    Equipamento --> QRCode
+
+
+
+
