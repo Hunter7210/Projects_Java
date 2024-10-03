@@ -1,6 +1,5 @@
 package com.example.Models;
 
-import org.bson.types.ObjectId;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
@@ -9,7 +8,6 @@ import lombok.AllArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Funcionario {
-    private ObjectId id;
     private String nomeFunc;
     private String reFunc;
     private String setorFunc;

@@ -16,10 +16,10 @@ import com.mongodb.client.model.Updates;
 public class EquipamentoControler {
 
     // Criação de um CRUD para equipamentos
-
+    
     // CREATE
-    // Criação do metodo para realizar a criação de novos equipamentos, os
-    // parametros incluem Listas e Strings
+
+    // Criação do metodo para realizar a criação de novos equipamentos, os parametros incluem Listas e Strings
     public void createEquipamento(String nomeEqui, String dataCompraEquip, String tipoEquip, String fornecEquip,
             int qtdSensorEquip, String statusEquip, List<Document> sensores, List<Document> manutencoes,
             List<Document> qrcodes) {

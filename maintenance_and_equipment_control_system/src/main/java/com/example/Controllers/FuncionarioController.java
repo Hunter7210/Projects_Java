@@ -9,7 +9,7 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 
 public class FuncionarioController {
-    public static void createFuncionario(String nomeFunc, String reFunc, String setorFunc, String cargoFunc,
+    public void createFuncionario(String nomeFunc, String reFunc, String setorFunc, String cargoFunc,
             String telefoneFunc, String emailFunc, String senhaFunc) {
         MongoDatabase database = MongoConnection.connectToDatabase();
         MongoCollection<Document> collection = database.getCollection("Funcionarios");
@@ -26,14 +26,13 @@ public class FuncionarioController {
         System.out.println("Funcionário inserido com sucesso.");
     }
 
-    public Funcionario readFuncionario(ObjectId id) {
+    public Funcionario readFuncionario(String reFunc) {
         MongoDatabase database = MongoConnection.connectToDatabase();
         MongoCollection<Document> collection = database.getCollection("Funcionarios");
-        Document found = collection.find(new Document("id", id)).first();
+        Document found = collection.find(new Document("reFunc", reFunc)).first();
 
         if (found != null) {
             return new Funcionario(
-                    id,
                     found.getString("nomeFunc"),
                     found.getString("reFunc"),
                     found.getString("setorFunc"),
@@ -42,7 +41,7 @@ public class FuncionarioController {
                     found.getString("emailFunc"),
                     found.getString("senhaFunc"));
         }
-        return null; // Retorna null se não encontrado
+        return null; // Retorna null se não encontrado  
     }
 
     // Atualizar um funcionário
@@ -60,4 +59,35 @@ public class FuncionarioController {
         MongoCollection<Document> collection = database.getCollection("Funcionarios");
         collection.deleteOne(new Document("nomeFunc", nomeFunc));
     }
+
+    // Criando um metodo para o login do usuario
+    public boolean loginFunc(String reFunc, String senhaFunc) {
+        // Conectando com o banco de dados
+        MongoDatabase database = MongoConnection.connectToDatabase();
+        MongoCollection<Document> collection = database.getCollection("Funcionarios");
+
+        // Buscando o funcionário pelo reFunc
+        Document funcionario = collection.find(new Document("reFunc", reFunc)).first();
+
+        // Verificando se o funcionario foi encontrado
+        if (funcionario == null) {
+            System.out.println("Funcionário não encontrado");
+            return false;
+
+        }
+
+        // Obtendo a senha do funcionario
+        String senhaBanco = funcionario.getString("senhaFunc"); // Busca no meu banco a sneha do funcionario
+
+        if (senhaBanco.equals(senhaBanco)) {
+            System.out.println("Login realizado com sucesso.");
+            return true; // Retorna verdadeiro se o login for bem-sucedido
+        } else {
+            System.out.println("Senha incorreta.");
+            return false; // Retorna falso se a senha estiver incorreta
+        }
+
+    }
+
+    
 }

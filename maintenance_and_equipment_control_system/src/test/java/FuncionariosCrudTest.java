@@ -9,7 +9,7 @@ import org.bson.Document;
 
 public class FuncionariosCrudTest {
     private static MongoDatabase database;
-
+    FuncionarioController fc = new FuncionarioController();
     @BeforeAll
     public static void setup() {
         database = MongoConnection.connectToDatabase();
@@ -25,7 +25,7 @@ public class FuncionariosCrudTest {
     @Test
     public void testCreateFuncionario() {
         // Criar um novo funcionário
-        FuncionarioController.createFuncionario("João Silva", "12345", "Manutenção", "Técnico", "555-1234", "joao@empresa.com", "senhaSegura");
+        fc.createFuncionario("João Silva", "12345", "Manutenção", "Técnico", "555-1234", "joao@empresa.com", "senhaSegura");
 
         // Verifica se o funcionário foi criado
         MongoCollection<Document> collection = database.getCollection("Funcionarios");
@@ -36,7 +36,7 @@ public class FuncionariosCrudTest {
     @Test
     public void testReadFuncionario() {
         // Criar e ler um funcionário
-        FuncionarioController.createFuncionario("João Silva", "12345", "Manutenção", "Técnico", "555-1234", "joao@empresa.com", "senhaSegura");
+        fc.createFuncionario("João Silva", "12345", "Manutenção", "Técnico", "555-1234", "joao@empresa.com", "senhaSegura");
 
         // Ler o funcionário
         Document found = database.getCollection("Funcionarios").find(new Document("nomeFunc", "João Silva")).first();
@@ -46,7 +46,7 @@ public class FuncionariosCrudTest {
     @Test
     public void testDeleteFuncionario() {
         // Criar um novo funcionário
-        FuncionarioController.createFuncionario("João Silva", "12345", "Manutenção", "Técnico", "555-1234", "joao@empresa.com", "senhaSegura");
+        fc.createFuncionario("João Silva", "12345", "Manutenção", "Técnico", "555-1234", "joao@empresa.com", "senhaSegura");
 
 /*         // Deletar o funcionário
         FuncionarioController.deleteFuncionario("João Silva");

@@ -10,7 +10,6 @@
 
 -----Desenvolvimento-----
 - [ ] Verificar conexão com o banco de dados do MONGODB;
-- [ ] Criar os Models;
 - [ ] Criar os Controller;
 - [ ] Criar as views em Java Swing/outras ferramentas que forem necessárias;
 - [ ] Integrar API QRCODE;
@@ -25,4 +24,5 @@
 - [x] Ideias iniciais
 - [x] Diagramas
 - [x] Definir requisitos do projeto
+- [x] Criar os Models;
 

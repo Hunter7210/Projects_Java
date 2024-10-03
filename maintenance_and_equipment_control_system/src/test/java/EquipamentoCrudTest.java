@@ -47,8 +47,10 @@ public class EquipamentoCrudTest {
 
     @Test
     public void testReadEquipamento() {
+        EquipamentoControler eq = new EquipamentoControler();
+       
         // Criar e ler um equipamento
-        EquipamentoControler.createEquipamento(
+        eq.createEquipamento(
                 "Máquina Teste",
                 "2023-01-01",
                 "Máquina Industrial",
@@ -61,15 +63,16 @@ public class EquipamentoCrudTest {
         );
 
         // Ler o equipamento
-        EquipamentoControler.readEquipamento("Máquina Teste");
+        eq.readEquipamento("Máquina Teste");
         Document found = database.getCollection("Equipamento").find(new Document("nomeEqui", "Máquina Teste")).first();
         assertNotNull(found, "Equipamento não foi encontrado.");
     }
 
     @Test
     public void testUpdateEquipamento() {
+        EquipamentoControler eq = new EquipamentoControler();
         // Criar um novo equipamento
-        EquipamentoControler.createEquipamento(
+        eq.createEquipamento(
                 "Máquina Teste",
                 "2023-01-01",
                 "Máquina Industrial",
@@ -82,7 +85,7 @@ public class EquipamentoCrudTest {
         );
 
         // Atualizar o status do equipamento
-        EquipamentoControler.updateEquipamento("Máquina Teste", "Manutenção");
+        eq.updateEquipamento("Máquina Teste", "Manutenção");
 
         // Verificar se o status foi atualizado
         Document found = database.getCollection("Equipamento").find(new Document("nomeEqui", "Máquina Teste")).first();
@@ -91,8 +94,9 @@ public class EquipamentoCrudTest {
 
     @Test
     public void testDeleteEquipamento() {
+        EquipamentoControler eq = new EquipamentoControler();
         // Criar um novo equipamento
-        EquipamentoControler.createEquipamento(
+        eq.createEquipamento(
                 "Máquina Teste",
                 "2023-01-01",
                 "Máquina Industrial",
@@ -105,7 +109,7 @@ public class EquipamentoCrudTest {
         );
 
         // Deletar o equipamento
-        EquipamentoControler.deleteEquipamento("Máquina Teste");
+        eq.deleteEquipamento("Máquina Teste");
 
         // Verifica se o equipamento foi deletado
         Document found = database.getCollection("Equipamento").find(new Document("nomeEqui", "Máquina Teste")).first();
