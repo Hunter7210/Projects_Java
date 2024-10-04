@@ -2,7 +2,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.*;
 
 import com.example.Connection.MongoConnection;
-import com.example.Controllers.EquipamentoControler;
+import com.example.Controllers.EquipamentoController;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import org.bson.Document;
@@ -25,7 +25,7 @@ public class EquipamentoCrudTest {
 
     @Test
     public void testCreateEquipamento() {
-        EquipamentoControler eq = new EquipamentoControler();
+        EquipamentoController eq = new EquipamentoController();
         // Criar um novo equipamento
         eq.createEquipamento(
                 "Máquina Teste",
@@ -47,7 +47,7 @@ public class EquipamentoCrudTest {
 
     @Test
     public void testReadEquipamento() {
-        EquipamentoControler eq = new EquipamentoControler();
+        EquipamentoController eq = new EquipamentoController();
        
         // Criar e ler um equipamento
         eq.createEquipamento(
@@ -70,7 +70,7 @@ public class EquipamentoCrudTest {
 
     @Test
     public void testUpdateEquipamento() {
-        EquipamentoControler eq = new EquipamentoControler();
+        EquipamentoController eq = new EquipamentoController();
         // Criar um novo equipamento
         eq.createEquipamento(
                 "Máquina Teste",
@@ -94,7 +94,7 @@ public class EquipamentoCrudTest {
 
     @Test
     public void testDeleteEquipamento() {
-        EquipamentoControler eq = new EquipamentoControler();
+        EquipamentoController eq = new EquipamentoController();
         // Criar um novo equipamento
         eq.createEquipamento(
                 "Máquina Teste",

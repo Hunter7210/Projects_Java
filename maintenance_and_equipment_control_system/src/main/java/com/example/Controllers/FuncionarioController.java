@@ -1,7 +1,6 @@
 package com.example.Controllers;
 
 import org.bson.Document;
-import org.bson.types.ObjectId;
 
 import com.example.Connection.MongoConnection;
 import com.example.Models.Funcionario;
@@ -9,6 +8,8 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 
 public class FuncionarioController {
+
+    /* Criando um metodo para criar Funcioncionario */
     public void createFuncionario(String nomeFunc, String reFunc, String setorFunc, String cargoFunc,
             String telefoneFunc, String emailFunc, String senhaFunc) {
         MongoDatabase database = MongoConnection.connectToDatabase();
@@ -26,6 +27,7 @@ public class FuncionarioController {
         System.out.println("Funcionário inserido com sucesso.");
     }
 
+    /* Metodo para retornar apenas o usuario especificado */
     public Funcionario readFuncionario(String reFunc) {
         MongoDatabase database = MongoConnection.connectToDatabase();
         MongoCollection<Document> collection = database.getCollection("Funcionarios");

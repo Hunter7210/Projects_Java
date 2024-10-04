@@ -10,10 +10,8 @@ import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.Updates;
 
-/**
- * EquipamentoController
- */
-public class EquipamentoControler {
+//Classe para realizar o controle dos equipamentos
+public class EquipamentoController {
 
     // Criação de um CRUD para equipamentos
     

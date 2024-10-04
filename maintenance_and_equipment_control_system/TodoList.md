@@ -9,8 +9,7 @@
 - [ ] Finalizar Figma;
 
 -----Desenvolvimento-----
-- [ ] Verificar conexão com o banco de dados do MONGODB;
-- [ ] Criar os Controller;
+- [ ] Criar os Controllers;
 - [ ] Criar as views em Java Swing/outras ferramentas que forem necessárias;
 - [ ] Integrar API QRCODE;
 
@@ -25,4 +24,5 @@
 - [x] Diagramas
 - [x] Definir requisitos do projeto
 - [x] Criar os Models;
+- [x] Verificar conexão com o banco de dados do MONGODB;
 
