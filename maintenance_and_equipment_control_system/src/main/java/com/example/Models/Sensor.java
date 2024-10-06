@@ -13,5 +13,5 @@ public class Sensor {
     private String nomeSen;
     private String fornecSen;
     private String funSen;
-    private List<Acionamento> acionamentos;
+    private List<Dados> dados;
 }

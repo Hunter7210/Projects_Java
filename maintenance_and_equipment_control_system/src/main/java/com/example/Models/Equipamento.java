@@ -12,7 +12,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 
 public class Equipamento {
-    private ObjectId id;
     private String nomeEqui;
     private String dataCompraEquip;
     private String tipoEquip;

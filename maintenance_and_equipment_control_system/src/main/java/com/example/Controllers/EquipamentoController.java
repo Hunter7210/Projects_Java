@@ -2,6 +2,8 @@ package com.example.Controllers;
 
 import org.bson.Document;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import com.example.Connection.MongoConnection;
@@ -14,10 +16,11 @@ import com.mongodb.client.model.Updates;
 public class EquipamentoController {
 
     // Criação de um CRUD para equipamentos
-    
+
     // CREATE
 
-    // Criação do metodo para realizar a criação de novos equipamentos, os parametros incluem Listas e Strings
+    // Criação do metodo para realizar a criação de novos equipamentos, os
+    // parametros incluem Listas e Strings
     public void createEquipamento(String nomeEqui, String dataCompraEquip, String tipoEquip, String fornecEquip,
             int qtdSensorEquip, String statusEquip, List<Document> sensores, List<Document> manutencoes,
             List<Document> qrcodes) {
@@ -26,7 +29,8 @@ public class EquipamentoController {
         MongoDatabase database = MongoConnection.connectToDatabase();
         MongoCollection<Document> collection = database.getCollection("Equipamento");
 
-        // Cria um documento temporário para conter todos os parâmetros e organiza-los em pares chave-valor
+        // Cria um documento temporário para conter todos os parâmetros e organiza-los
+        // em pares chave-valor
         Document equipamento = new Document("nomeEqui", nomeEqui)
                 .append("dataCompraEquip", dataCompraEquip)
                 .append("tipoEquip", tipoEquip)
@@ -37,10 +41,10 @@ public class EquipamentoController {
                 .append("Manutencao", manutencoes)
                 .append("QRCODE", qrcodes);
 
-        //Metodo responsável por inserir um novo item
+        // Metodo responsável por inserir um novo item
         collection.insertOne(equipamento);
-        
-        //Mensagem para a conclusão do equipamento
+
+        // Mensagem para a conclusão do equipamento
         System.out.println("Equipamento inserido com sucesso.");
     }
 
@@ -63,9 +67,10 @@ public class EquipamentoController {
     }
 
     // Função de exemplo para criar acionamento
-    public Document createAcionamento(String timeStampAci, String dadosAci) {
-        return new Document("timeStampAci", timeStampAci)
-                .append("dadosAci", dadosAci);
+    public Document createDados(double dadosDad, String unidMedDad) {
+        return new Document("timeStampDad", timeStamp())
+                .append("dadosDad", dadosDad)
+                .append("unidMedDad", unidMedDad);
     }
 
     // Função de exemplo para criar QR Code
@@ -106,6 +111,20 @@ public class EquipamentoController {
 
         collection.deleteOne(Filters.eq("nomeEqui", nomeEqui));
         System.out.println("Equipamento deletado com sucesso.");
+    }
+
+
+    public String timeStamp() {
+        // Obtém a data e hora atuais
+        LocalDateTime dataHoraAtual = LocalDateTime.now();
+
+        // Define o formato de exibição
+        DateTimeFormatter formatacao = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+
+        // Formata a data e hora
+        String dataHoraFormatada = dataHoraAtual.format(formatacao);
+
+        return dataHoraFormatada;
     }
 
 }

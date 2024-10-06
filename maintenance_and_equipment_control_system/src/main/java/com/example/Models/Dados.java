@@ -7,7 +7,8 @@ import lombok.AllArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Acionamento {
-    private String timeStampAci;
-    private String dadosAci;
+public class Dados {
+    private String timeStampDad;
+    private double dadosDad;
+    private String unidMedidDad;
 }
