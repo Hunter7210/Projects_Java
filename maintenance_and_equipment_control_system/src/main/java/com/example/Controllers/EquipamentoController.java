@@ -7,6 +7,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import com.example.Connection.MongoConnection;
+import com.example.Models.EmpresaManu;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Filters;
@@ -58,11 +59,13 @@ public class EquipamentoController {
 
     // Função de exemplo para criar manutenção
     public Document createManutencao(String dataIniManut, String dataFimManut, String tipoManut,
-            String statusManut, List<Document> empresasManut) {
-        return new Document("dataIniManut", dataIniManut)
-                .append("dataFimManut", dataFimManut)
-                .append("tipoManut", tipoManut)
+            String statusManut, String dataPrevisFimManut, String dataPrevisIniManut, List<Document> empresasManut) {
+        return new Document("tipoManut", tipoManut)
                 .append("statusManut", statusManut)
+                .append("dataIniManut", dataIniManut)
+                .append("dataFimManut", dataFimManut)
+                .append("dataPrevisIniManut", dataPrevisIniManut)
+                .append("dataPrevisFimManut", dataPrevisFimManut)
                 .append("EmpresaManu", empresasManut);
     }
 
@@ -113,7 +116,7 @@ public class EquipamentoController {
         System.out.println("Equipamento deletado com sucesso.");
     }
 
-
+    /* Metodo para buscar Data e Hora do sistema */
     public String timeStamp() {
         // Obtém a data e hora atuais
         LocalDateTime dataHoraAtual = LocalDateTime.now();

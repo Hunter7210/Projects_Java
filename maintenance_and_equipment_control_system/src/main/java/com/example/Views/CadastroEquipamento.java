@@ -11,9 +11,6 @@ import org.bson.Document;
 import com.example.Controllers.EquipamentoController;
 
 public class CadastroEquipamento extends JFrame {
-    private JPanel panielManut;
-    private JPanel panielSensor;
-    
     
     private JTextField nomeField;
     private JTextField dataCompraField;
@@ -21,8 +18,7 @@ public class CadastroEquipamento extends JFrame {
     private JTextField fornecedorField;
     private JTextField qtdSensorField;
     private JComboBox<String> statusComboBox;
-    private JComboBox<String> statusComboBoxManut;
-
+    
     private List<Document> sensores = new ArrayList<>();
     private List<Document> manutencoes = new ArrayList<>();
     private List<Document> qrcodes = new ArrayList<>();
@@ -111,15 +107,16 @@ public class CadastroEquipamento extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 CadastroSensor cs = new CadastroSensor();
-                cs.cadastrarSensor(); 
-                
+                cs.cadastrarSensor();
+
             }
         });
 
         adicionarManutencaoButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                adicionarManutencao();
+                CadastroManutencao cm = new CadastroManutencao();
+                cm.adicionarManutencao();
             }
         });
 
@@ -132,30 +129,6 @@ public class CadastroEquipamento extends JFrame {
 
         add(panel);
         setVisible(true);
-    }
-
-  
-
-    private void adicionarManutencao() {
-        String tipoManut = JOptionPane.showInputDialog(this, "Tipo de Manutenção:");
-        String[] statusOptionsManut = {"Ativo", "Inativo", "Em Manutenção"};
-        statusComboBoxManut = new JComboBox<>(statusOptionsManut);
-
-        String dataIniManut = JOptionPane.showInputDialog(this, "Data Início da Manutenção:");
-        String dataFimManut = JOptionPane.showInputDialog(this, "Data Fim da Manutenção:");
-
-        List<Document> empresasManut = new ArrayList<>();
-
-        int qtdEmpresas = Integer.parseInt(JOptionPane.showInputDialog(this, "Quantas empresas responsaveis pela manutenção?"));
-        for (int i = 0; i < qtdEmpresas; i++) {
-            String nomeEmpresa = JOptionPane.showInputDialog(this, "Nome da empresa " + (i + 1) + ":");
-            empresasManut.add(new Document("nomeEmpresa", nomeEmpresa));
-        }
-
-        Document manutencao = controller.createManutencao(dataIniManut, dataFimManut, tipoManut, statusOptionsManut.toString(),
-                empresasManut);
-        manutencoes.add(manutencao);
-        JOptionPane.showMessageDialog(this, "Manutenção adicionada!");
     }
 
     private void adicionarQrCode() {
@@ -179,9 +152,5 @@ public class CadastroEquipamento extends JFrame {
         controller.createEquipamento(nome, dataCompra, tipo, fornecedor, qtdSensores, status, sensores, manutencoes,
                 qrcodes);
         JOptionPane.showMessageDialog(this, "Equipamento cadastrado com sucesso!");
-    }
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(CadastroEquipamento::new);
     }
 }
