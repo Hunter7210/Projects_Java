@@ -1,10 +1,11 @@
 package com.example;
 
 import javax.swing.SwingUtilities;
-import com.example.Views.CadastroEquipamento;
+
+import com.example.Views.HomeScreen;
 
 public class Main {
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(CadastroEquipamento::new);
+        SwingUtilities.invokeLater( HomeScreen::new);
     }
 }

@@ -43,7 +43,7 @@ public class FuncionarioController {
                     found.getString("emailFunc"),
                     found.getString("senhaFunc"));
         }
-        return null; // Retorna null se não encontrado  
+        return null; // Retorna null se não encontrado
     }
 
     // Atualizar um funcionário
@@ -81,7 +81,7 @@ public class FuncionarioController {
         // Obtendo a senha do funcionario
         String senhaBanco = funcionario.getString("senhaFunc"); // Busca no meu banco a sneha do funcionario
 
-        if (senhaBanco.equals(senhaBanco)) {
+        if (senhaBanco != null && senhaBanco.equals(senhaFunc.trim())) {
             System.out.println("Login realizado com sucesso.");
             return true; // Retorna verdadeiro se o login for bem-sucedido
         } else {
@@ -91,5 +91,4 @@ public class FuncionarioController {
 
     }
 
-    
 }

@@ -5,6 +5,7 @@ import org.bson.Document;
 import com.example.Controllers.EquipamentoController;
 import com.example.Controllers.ManutencaoController;
 
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,7 +14,7 @@ import java.util.List;
 
 public class CadastroManutencao {
 
-    EquipamentoController eq = new EquipamentoController();
+    EquipamentoController equipamentoController = new EquipamentoController();
 
     private JPanel painelManut;
     private JComboBox<String> statusComboBoxtipoManut;
@@ -25,7 +26,8 @@ public class CadastroManutencao {
 
     List<Document> empresasManut = new ArrayList<>();
 
-    public void adicionarManutencao(String codEquip) {
+    public List<Document> adicionarManutencao(String codEquip) {
+
         /* Configuração do painel principal */
         painelManut = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
@@ -70,7 +72,8 @@ public class CadastroManutencao {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // Aqui você pode adicionar a lógica para abrir a tela de empresaManut
-                abrirTelaEmpresaManut();
+                CadastroEquipManut em = new CadastroEquipManut();
+                empresasManut.addAll(em.prepararInterface());
             }
         });
 
@@ -79,23 +82,27 @@ public class CadastroManutencao {
         gbc.gridwidth = 2; // O botão ocupa duas colunas
         painelManut.add(btnAdicionar, gbc);
 
-        /* Formatando os campos */
-        String tipoManutencaoFormat = statusComboBoxtipoManut.getSelectedItem().toString();
-        String statusManutencaoFormat = statusComboBoxManut.getSelectedItem().toString();
-        String dataInicioFormat = dataIniManut.getText();
-        String dataFimFormat = dataFimManut.getText();
-        String dataPrevisaoInicioFormat = dataPrevisIniManut.getText();
-        String dataPrevisaoFimFormat = dataPrevisFimManut.getText();
-
         /* Botão para enviar os dados da manutenção */
         JButton btnEnviar = new JButton("Enviar Manutenção");
-        
+
         btnEnviar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ManutencaoController mc = new ManutencaoController();
-                
-                mc.updateManutencao(codEquip, dataInicioFormat, dataFimFormat, tipoManutencaoFormat, statusManutencaoFormat, dataPrevisaoInicioFormat, dataPrevisaoFimFormat, empresasManut);
+                ManutencaoController manutencaoController = new ManutencaoController();
+
+                String statusComboBoxtipoManutFormat = statusComboBoxtipoManut.getSelectedItem().toString();
+                String statusComboBoxManutFormat = statusComboBoxManut.getSelectedItem().toString();
+                String dataIniManutFormat = dataIniManut.getText();
+                String dataFimManutFormat = dataFimManut.getText();
+                String dataPrevisIniManutFormat = dataPrevisIniManut.getText();
+                String dataPrevisFimManutFormt = dataPrevisFimManut.getText();
+
+                // Adiciona a nova manutenção ao equipamento
+                manutencaoController.updateManutencao(codEquip, dataIniManutFormat, dataFimManutFormat,
+                        statusComboBoxtipoManutFormat, statusComboBoxManutFormat, dataPrevisFimManutFormt,
+                        dataPrevisIniManutFormat, empresasManut);
+
+                JOptionPane.showMessageDialog(null, "Manutenção adicionada com sucesso!");
             }
         });
 
@@ -110,6 +117,8 @@ public class CadastroManutencao {
         frame.add(painelManut);
         frame.pack();
         frame.setVisible(true);
+
+        return empresasManut;
     }
 
     private void updateManutencaoFields(int statusIndex) {
@@ -163,10 +172,5 @@ public class CadastroManutencao {
 
         painelManut.revalidate(); // Atualiza o layout
         painelManut.repaint(); // Redesenha o painel
-    }
-
-    private void abrirTelaEmpresaManut() {
-        CadastroEquipManut em = new CadastroEquipManut();
-        em.prepararInterface();
     }
 }

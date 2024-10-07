@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.*;
 import org.bson.Document;
-import com.example.Models.EmpresaManu; // Importa o modelo EmpresaManu
+import com.example.Models.EmpresaManu;
 
 public class CadastroEquipManut {
 
@@ -22,12 +22,10 @@ public class CadastroEquipManut {
     private JTextField campoCidade;
     private JTextField campoEmail;
 
-    private DefaultListModel<String> listaEmpresasModel;
-    private List<EmpresaManu> empresasManut; // Lista de empresas usando o modelo EmpresaManu
+    private List<EmpresaManu> empresas = new ArrayList<>(); // Lista de empresas usando o modelo EmpresaManu
+    private List<Document> empresasManut = new ArrayList<>(); // Lista de empresas para persistência
 
-    public void prepararInterface() {
-        empresasManut = new ArrayList<>();
-
+    public List<Document> prepararInterface() {
         // Configuração do JFrame
         frame = new JFrame("Cadastro de Equipamentos para Manutenção");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -56,7 +54,7 @@ public class CadastroEquipManut {
         gbc.gridx = 1;
         painelCadastro.add(campoNomeEmpresa, gbc);
 
-        // CampoW para endereço
+        // Campo para endereço
         gbc.gridx = 0;
         gbc.gridy = 2;
         painelCadastro.add(new JLabel("Endereço:"), gbc);
@@ -99,25 +97,28 @@ public class CadastroEquipManut {
         gbc.gridy = 8;
         painelCadastro.add(btnFinalizar, gbc);
 
-        // Adicionando ações aos botões
+        // Ação ao clicar no botão "Adicionar Empresa"
         btnAdicionar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 adicionarEmpresa();
             }
         });
-        /*
-         * btnFinalizar.addActionListener(new ActionListener() {
-         * 
-         * @Override
-         * public void actionPerformed(ActionEvent e) {
-         * finalizarCadastro();
-         * }
-         * });
-         */
+
+        // Ação ao clicar no botão "Finalizar Cadastro"
+        btnFinalizar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                frame.dispose(); // Fecha a janela
+            }
+        });
+
         // Adiciona o painel ao frame
         frame.add(painelCadastro, BorderLayout.CENTER);
         frame.setVisible(true);
+
+        // Retorna a lista de documentos (empresasManut) quando finalizar
+        return empresasManut;
     }
 
     private void adicionarEmpresa() {
@@ -139,9 +140,18 @@ public class CadastroEquipManut {
 
         // Cria uma nova empresa e adiciona à lista
         EmpresaManu novaEmpresa = new EmpresaManu(cnpj, nome, endereco, telefone, cidade, email);
-        empresasManut.add(novaEmpresa);
-        /* listaEmpresasModel.addElement(novaEmpresa.getNomeEmpresa()); // Adiciona o nome da empresa à lista
-         */limparCampos(); // Limpa os campos de entrada
+        empresas.add(novaEmpresa);
+
+        // Cria o documento BSON para a empresa e adiciona à lista de documentos
+        Document docEmpresa = new Document("cnpj", cnpj)
+                .append("nome", nome)
+                .append("endereco", endereco)
+                .append("telefone", telefone)
+                .append("cidade", cidade)
+                .append("email", email);
+        empresasManut.add(docEmpresa);
+
+        limparCampos(); // Limpa os campos de entrada
     }
 
     private void limparCampos() {
@@ -152,5 +162,4 @@ public class CadastroEquipManut {
         campoCidade.setText("");
         campoEmail.setText("");
     }
-
 }

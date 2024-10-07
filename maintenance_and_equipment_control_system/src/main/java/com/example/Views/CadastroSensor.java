@@ -19,12 +19,12 @@ public class CadastroSensor {
 
     private JButton btnTempo;
 
-    private List<Document> acionamento = new ArrayList<>();
+    private List<Document> dados = new ArrayList<>();
     private List<Document> sensores = new ArrayList<>();
 
     EquipamentoController eq = new EquipamentoController();
 
-    public void cadastrarSensor() {
+    public List<Document> cadastrarSensor() {
         // Criando painel principal com borda e layout mais espaçado
         painelSensor = new JPanel();
         painelSensor.setLayout(new GridBagLayout()); // Usando GridBagLayout para melhor controle de layout
@@ -64,26 +64,26 @@ public class CadastroSensor {
         gbc.gridx = 1;
         gbc.gridy = 2;
         painelSensor.add(scrollPane, gbc);
-   
+
         /* Adicionando btnTempo */
         btnTempo = new JButton("Adicionar Dados");
         painelSensor.add(btnTempo);
-
 
         // Definindo fontes e ajustando a aparência
         Font fonte = new Font("Arial", Font.PLAIN, 14);
         nomeSen.setFont(fonte);
         fornecSen.setFont(fonte);
         funSen.setFont(fonte);
-        
-                btnTempo.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        CadastroDados pgCadDad = new CadastroDados();
-                        pgCadDad.cadastrarDados();
-                    }
-                });
-        
+
+        btnTempo.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                CadastroDados pgCadDad = new CadastroDados();
+
+                dados.addAll(pgCadDad.cadastrarDados());
+            }
+        });
+
         // Exibindo um diálogo para entrada de dados com painel mais espaçoso
         int result = JOptionPane.showConfirmDialog(null, painelSensor, "Cadastrar Sensor", JOptionPane.OK_CANCEL_OPTION,
                 JOptionPane.PLAIN_MESSAGE);
@@ -92,16 +92,15 @@ public class CadastroSensor {
             String nomeSenText = nomeSen.getText();
             String fornecSenText = fornecSen.getText();
             String funSenText = funSen.getText();
-            
+
             // Criando um documento para o sensor
-            Document sensor = eq.createSensor(nomeSenText, fornecSenText, funSenText, acionamento);
+            Document sensor = eq.createSensor(nomeSenText, fornecSenText, funSenText, dados);
             sensores.add(sensor);
 
             // Mensagem de confirmação
             JOptionPane.showMessageDialog(null, "Sensor adicionado com sucesso!", "Sucesso",
                     JOptionPane.INFORMATION_MESSAGE);
         }
-
-
+        return sensores;
     }
 }

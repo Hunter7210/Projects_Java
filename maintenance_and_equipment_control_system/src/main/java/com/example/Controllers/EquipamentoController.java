@@ -8,6 +8,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import com.example.Connection.MongoConnection;
+import com.example.Models.Equipamento;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Filters;
@@ -74,11 +75,13 @@ public class EquipamentoController {
     }
 
     /* READ */
-    public void readEquipamento(String nomeEqui) {
+    
+    public List<Document> readEquipamento(String codEquip) {
         MongoDatabase database = MongoConnection.connectToDatabase();
         MongoCollection<Document> collection = database.getCollection("Equipamento");
 
-        Document equipamento = collection.find(Filters.eq("nomeEqui", nomeEqui)).first();
+        
+          Document equipamento = collection.find(Filters.eq("codEquip", codEquip)).first();
         if (equipamento != null) {
             System.out.println(equipamento.toJson());
         } else {

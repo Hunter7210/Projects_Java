@@ -24,6 +24,7 @@ public class ManutencaoController {
                 .append("EmpresaManu", empresasManut);
     }
 
+
     // Função de exemplo para criar e adicionar manutenção a um equipamento
     // existente
     public void updateManutencao(String codEquip, String dataIniManut, String dataFimManut, String tipoManut,
