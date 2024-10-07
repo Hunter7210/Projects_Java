@@ -2,12 +2,12 @@ package com.example.Controllers;
 
 import org.bson.Document;
 
+import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import com.example.Connection.MongoConnection;
-import com.example.Models.EmpresaManu;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Filters;
@@ -22,7 +22,8 @@ public class EquipamentoController {
 
     // Criação do metodo para realizar a criação de novos equipamentos, os
     // parametros incluem Listas e Strings
-    public void createEquipamento(String nomeEqui, String dataCompraEquip, String tipoEquip, String fornecEquip,
+    public void createEquipamento(String nomeEqui, String codEquip, String dataCompraEquip, String tipoEquip,
+            String fornecEquip,
             int qtdSensorEquip, String statusEquip, List<Document> sensores, List<Document> manutencoes,
             List<Document> qrcodes) {
 
@@ -33,6 +34,7 @@ public class EquipamentoController {
         // Cria um documento temporário para conter todos os parâmetros e organiza-los
         // em pares chave-valor
         Document equipamento = new Document("nomeEqui", nomeEqui)
+                .append("codEquip", codEquipFormat(codEquip))
                 .append("dataCompraEquip", dataCompraEquip)
                 .append("tipoEquip", tipoEquip)
                 .append("fornecEquip", fornecEquip)
@@ -55,18 +57,6 @@ public class EquipamentoController {
                 .append("fornecSen", fornecSen)
                 .append("funSen", funSen)
                 .append("Acionamento", acionamentos);
-    }
-
-    // Função de exemplo para criar manutenção
-    public Document createManutencao(String dataIniManut, String dataFimManut, String tipoManut,
-            String statusManut, String dataPrevisFimManut, String dataPrevisIniManut, List<Document> empresasManut) {
-        return new Document("tipoManut", tipoManut)
-                .append("statusManut", statusManut)
-                .append("dataIniManut", dataIniManut)
-                .append("dataFimManut", dataFimManut)
-                .append("dataPrevisIniManut", dataPrevisIniManut)
-                .append("dataPrevisFimManut", dataPrevisFimManut)
-                .append("EmpresaManu", empresasManut);
     }
 
     // Função de exemplo para criar acionamento
@@ -128,6 +118,22 @@ public class EquipamentoController {
         String dataHoraFormatada = dataHoraAtual.format(formatacao);
 
         return dataHoraFormatada;
+    }
+
+    public String codEquipFormat(String codEquipamento) {
+        MongoDatabase database = MongoConnection.connectToDatabase();
+        MongoCollection<Document> collection = database.getCollection("Equipamento");
+
+        long numeroCod = collection.countDocuments();
+        String formatado;
+        if (numeroCod < 1000) {
+            DecimalFormat df = new DecimalFormat("0000");
+            formatado = codEquipamento + df.format(numeroCod + 1);
+        } else {
+            formatado = String.valueOf(numeroCod); // Converte diretamente para string
+        }
+        System.out.println(formatado);
+        return formatado;
     }
 
 }

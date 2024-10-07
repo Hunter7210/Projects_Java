@@ -3,6 +3,7 @@ package com.example.Views;
 import javax.swing.*;
 import org.bson.Document;
 import com.example.Controllers.EquipamentoController;
+import com.example.Controllers.ManutencaoController;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -24,7 +25,7 @@ public class CadastroManutencao {
 
     List<Document> empresasManut = new ArrayList<>();
 
-    public void adicionarManutencao() {
+    public void adicionarManutencao(String codEquip) {
         /* Configuração do painel principal */
         painelManut = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
@@ -77,6 +78,31 @@ public class CadastroManutencao {
         gbc.gridy = 4; // Definindo a posição do botão
         gbc.gridwidth = 2; // O botão ocupa duas colunas
         painelManut.add(btnAdicionar, gbc);
+
+        /* Formatando os campos */
+        String tipoManutencaoFormat = statusComboBoxtipoManut.getSelectedItem().toString();
+        String statusManutencaoFormat = statusComboBoxManut.getSelectedItem().toString();
+        String dataInicioFormat = dataIniManut.getText();
+        String dataFimFormat = dataFimManut.getText();
+        String dataPrevisaoInicioFormat = dataPrevisIniManut.getText();
+        String dataPrevisaoFimFormat = dataPrevisFimManut.getText();
+
+        /* Botão para enviar os dados da manutenção */
+        JButton btnEnviar = new JButton("Enviar Manutenção");
+        
+        btnEnviar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ManutencaoController mc = new ManutencaoController();
+                
+                mc.updateManutencao(codEquip, dataInicioFormat, dataFimFormat, tipoManutencaoFormat, statusManutencaoFormat, dataPrevisaoInicioFormat, dataPrevisaoFimFormat, empresasManut);
+            }
+        });
+
+        gbc.gridx = 0;
+        gbc.gridy = 5; // Posição abaixo do botão Adicionar Empresa
+        gbc.gridwidth = 2;
+        painelManut.add(btnEnviar, gbc);
 
         /* Adiciona o painel ao JFrame */
         JFrame frame = new JFrame("Adicionar Manutenção");

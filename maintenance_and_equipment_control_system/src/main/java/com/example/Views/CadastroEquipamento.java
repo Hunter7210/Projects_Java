@@ -11,14 +11,15 @@ import org.bson.Document;
 import com.example.Controllers.EquipamentoController;
 
 public class CadastroEquipamento extends JFrame {
-    
+
     private JTextField nomeField;
+    private JTextField codField;
     private JTextField dataCompraField;
     private JTextField tipoField;
     private JTextField fornecedorField;
     private JTextField qtdSensorField;
     private JComboBox<String> statusComboBox;
-    
+
     private List<Document> sensores = new ArrayList<>();
     private List<Document> manutencoes = new ArrayList<>();
     private List<Document> qrcodes = new ArrayList<>();
@@ -50,6 +51,10 @@ public class CadastroEquipamento extends JFrame {
         panel.add(new JLabel("Nome do Equipamento:"));
         nomeField = new JTextField();
         panel.add(nomeField);
+
+        panel.add(new JLabel("Sigla do Equipamento (Três Letras):"));
+        codField = new JTextField();
+        panel.add(codField);
 
         panel.add(new JLabel("Data de Compra:"));
         dataCompraField = new JTextField();
@@ -108,48 +113,58 @@ public class CadastroEquipamento extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 CadastroSensor cs = new CadastroSensor();
                 cs.cadastrarSensor();
-
+                
             }
         });
-
+        
         adicionarManutencaoButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+
                 CadastroManutencao cm = new CadastroManutencao();
-                cm.adicionarManutencao();
+                String codE = codField.getText();
+                
+                cm.adicionarManutencao(codE);
             }
         });
 
-        adicionarQrCodeButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                adicionarQrCode();
-            }
-        });
+        /*
+         * adicionarQrCodeButton.addActionListener(new ActionListener() {
+         * 
+         * @Override
+         * public void actionPerformed(ActionEvent e) {
+         * adicionarQrCode();
+         * }
+         * });
+         */
 
         add(panel);
         setVisible(true);
     }
 
-    private void adicionarQrCode() {
-        String imgQr = JOptionPane.showInputDialog(this, "Imagem do QR Code:");
-        String titQr = JOptionPane.showInputDialog(this, "Título do QR Code:");
-        String descQr = JOptionPane.showInputDialog(this, "Descrição do QR Code:");
-
-        Document qrCode = controller.createQRCode(imgQr, titQr, descQr);
-        qrcodes.add(qrCode);
-        JOptionPane.showMessageDialog(this, "QR Code adicionado!");
-    }
+    /*
+     * private void adicionarQrCode() {
+     * String imgQr = JOptionPane.showInputDialog(this, "Imagem do QR Code:");
+     * String titQr = JOptionPane.showInputDialog(this, "Título do QR Code:");
+     * String descQr = JOptionPane.showInputDialog(this, "Descrição do QR Code:");
+     * 
+     * Document qrCode = controller.createQRCode(imgQr, titQr, descQr);
+     * qrcodes.add(qrCode);
+     * JOptionPane.showMessageDialog(this, "QR Code adicionado!");
+     * }
+     */
 
     private void salvarEquipamento() {
         String nome = nomeField.getText();
+        String cod = codField.getText();
         String dataCompra = dataCompraField.getText();
         String tipo = tipoField.getText();
         String fornecedor = fornecedorField.getText();
         int qtdSensores = Integer.parseInt(qtdSensorField.getText());
-        String status = (String) statusComboBox.getSelectedItem();
+        String status = statusComboBox.getSelectedItem().toString();
 
-        controller.createEquipamento(nome, dataCompra, tipo, fornecedor, qtdSensores, status, sensores, manutencoes,
+        controller.createEquipamento(nome, cod, dataCompra, tipo, fornecedor, qtdSensores, status, sensores,
+                manutencoes,
                 qrcodes);
         JOptionPane.showMessageDialog(this, "Equipamento cadastrado com sucesso!");
     }

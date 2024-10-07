@@ -1,7 +1,6 @@
 package com.example;
 
 import javax.swing.SwingUtilities;
-
 import com.example.Views.CadastroEquipamento;
 
 public class Main {

@@ -1,7 +1,6 @@
 package com.example.Models;
 
 import java.util.List;
-import org.bson.types.ObjectId;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -13,6 +12,7 @@ import lombok.NoArgsConstructor;
 
 public class Equipamento {
     private String nomeEqui;
+    private String codEquip;
     private String dataCompraEquip;
     private String tipoEquip;
     private String fornecEquip;

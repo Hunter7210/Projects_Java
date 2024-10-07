@@ -56,7 +56,7 @@ public class CadastroEquipManut {
         gbc.gridx = 1;
         painelCadastro.add(campoNomeEmpresa, gbc);
 
-        // Campo para endereço
+        // CampoW para endereço
         gbc.gridx = 0;
         gbc.gridy = 2;
         painelCadastro.add(new JLabel("Endereço:"), gbc);
