@@ -5,9 +5,9 @@ import javax.swing.*;
 import org.bson.Document;
 
 import com.example.Controllers.EquipamentoController;
+import com.example.Controllers.GerarRelatorioPDF;
 import com.example.Controllers.SensorController;
 import com.example.Models.Dados;
-import com.example.Models.EmpresaManu;
 import com.example.Models.Equipamento;
 import com.example.Models.Manutencao;
 import com.example.Models.QrCode;
@@ -44,10 +44,9 @@ public class EquipamentoScreen extends JFrame {
         JPanel sidebarPanel = new JPanel(new GridLayout(3, 1, 10, 10));
         sidebarPanel.setPreferredSize(new Dimension(150, 0));
         JButton btnDashboard = new JButton("Manuteções");
-        JButton btnEquipamentos = new JButton("Gerar Relatório");
         JButton btnEquip = new JButton("Adicionar Equipamento");
         sidebarPanel.add(btnDashboard);
-        sidebarPanel.add(btnEquipamentos);
+        
         sidebarPanel.add(btnEquip);
         add(sidebarPanel, BorderLayout.WEST);
 
@@ -75,6 +74,7 @@ public class EquipamentoScreen extends JFrame {
 
             }
         });
+        
         // Adiciona um evento ao botão
         btnEquip.addActionListener(new ActionListener() {
             @Override
@@ -83,6 +83,8 @@ public class EquipamentoScreen extends JFrame {
 
             }
         });
+        
+       
 
         setVisible(true);
     }
@@ -155,13 +157,16 @@ public class EquipamentoScreen extends JFrame {
             }
         }
 
-        // Exibe os QR Codes
-        JLabel qrCodesLabel = new JLabel("QR Codes:");
-        detalhesPanel.add(qrCodesLabel);
-        for (QrCode qrCode : equipamento.getQrcodes()) {
-            detalhesPanel
-                    .add(new JLabel("QR Code: " + qrCode.getDescQr() + " | Gerado em: " + qrCode.getTitQr()));
-        }
+        
+        JButton btnRelatorio = new JButton("Gerar Relatório");
+        detalhesPanel.add(btnRelatorio);
+         // Adiciona um evento ao botão
+         btnRelatorio.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                    GerarRelatorioPDF.gerarPDF(equipamento);
+            }
+        });
 
         // Adiciona o painel ao frame de detalhes
         detalhesFrame.add(new JScrollPane(detalhesPanel));

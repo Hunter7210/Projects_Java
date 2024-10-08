@@ -48,15 +48,24 @@ public class EquipamentoDetailScreen extends JFrame {
         btnUpdateManutencao.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String manutencaoId = JOptionPane.showInputDialog("Digite o ID da manutenção a ser atualizada:");
-                String novoStatus = JOptionPane.showInputDialog("Digite o novo status da manutenção:");
 
-                if (manutencaoId != null && novoStatus != null) {
-                    mc.updateStatusManutencao(codEquip, manutencaoId, novoStatus); // Atualiza o status da manutenção
-                    JOptionPane.showMessageDialog(null, "Status da manutenção atualizado com sucesso.");
-                }
+                // Abre a tela com a lista de manutenções
+                new ListaManutencaoScreen(codEquip); // Abre a tela de listagem de manutenções
             }
-        });
+            /*
+             * String manutencaoId =
+             * JOptionPane.showInputDialog("Digite o ID da manutenção a ser atualizada:");
+             * String novoStatus =
+             * JOptionPane.showInputDialog("Digite o novo status da manutenção:");
+             * 
+             * if (manutencaoId != null && novoStatus != null) {
+             * mc.updateStatusManutencao(codEquip, manutencaoId, novoStatus); // Atualiza o
+             * status da manutenção
+             * JOptionPane.showMessageDialog(null,
+             * "Status da manutenção atualizado com sucesso.");
+             * }
+             * }
+             */ });
 
         // Adiciona ação ao botão "Excluir Manutenção"
         btnDeleteManutencao.addActionListener(new ActionListener() {

@@ -25,7 +25,7 @@ public class HomeScreen extends JFrame {
         topPanel.add(titleLabel);
 
         // Logo da navbar
-        ImageIcon logoIcon = new ImageIcon("caminho/para/sua/logo.png"); // Substitua pelo caminho da sua logo
+        ImageIcon logoIcon = new ImageIcon("./assets/img/IMGSistema.png"); // Substitua pelo caminho da sua logo
         JLabel logoLabel = new JLabel(logoIcon);
         topPanel.add(logoLabel);
 
@@ -37,8 +37,14 @@ public class HomeScreen extends JFrame {
         centerPanel.setLayout(new BorderLayout());
 
         // Imagem central
-        ImageIcon imageIcon = new ImageIcon("caminho/para/sua/imagem.png"); // Substitua pelo caminho da sua imagem
-        JLabel imageLabel = new JLabel(imageIcon);
+        ImageIcon imageIcon = new ImageIcon("C:/Users/DevTarde/Documents/Heitor/4_Termo/Java/Projects_Java/maintenance_and_equipment_control_system/src/main/java/com/example/assets/img/IMGSistema.png"); // Substitua pelo caminho da sua imagem
+        
+        // Redimensiona a imagem
+        Image image = imageIcon.getImage(); // Converte ImageIcon em Image
+        Image scaledImage = image.getScaledInstance(800, 600, Image.SCALE_SMOOTH); // Ajuste a largura e altura conforme necessário
+        ImageIcon scaledIcon = new ImageIcon(scaledImage); // Converte de volta para ImageIcon
+
+        JLabel imageLabel = new JLabel(scaledIcon);
         imageLabel.setHorizontalAlignment(SwingConstants.CENTER);
         centerPanel.add(imageLabel, BorderLayout.CENTER);
 
