@@ -80,12 +80,8 @@ public class CadastroEquipamento extends JFrame {
 
         /* Add Buttons */
         adicionarSensorButton = new JButton("Adicionar Sensor");
-        adicionarManutencaoButton = new JButton("Adicionar Manutenção");
-        adicionarQrCodeButton = new JButton("Adicionar QR Code");
 
         panel.add(adicionarSensorButton);
-        panel.add(adicionarManutencaoButton);
-        panel.add(adicionarQrCodeButton);
 
         salvarButton = new JButton("Salvar");
         cancelarButton = new JButton("Cancelar");
@@ -113,30 +109,11 @@ public class CadastroEquipamento extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 CadastroSensor cs = new CadastroSensor();
                 cs.cadastrarSensor();
-                
-            }
-        });
-        
-        adicionarManutencaoButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
 
-                CadastroManutencao cm = new CadastroManutencao();
-                String codE = codField.getText();
-                
-                cm.adicionarManutencao(codE);
             }
         });
 
-        /*
-         * adicionarQrCodeButton.addActionListener(new ActionListener() {
-         * 
-         * @Override
-         * public void actionPerformed(ActionEvent e) {
-         * adicionarQrCode();
-         * }
-         * });
-         */
+ 
 
         add(panel);
         setVisible(true);

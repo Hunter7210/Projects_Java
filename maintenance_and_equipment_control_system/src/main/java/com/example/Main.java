@@ -2,7 +2,6 @@ package com.example;
 
 import javax.swing.SwingUtilities;
 
-import com.example.Views.CadastroFuncionarioScreen;
 import com.example.Views.HomeScreen;
 
 public class Main {

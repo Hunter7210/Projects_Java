@@ -45,10 +45,10 @@ public class EquipamentoScreen extends JFrame {
         sidebarPanel.setPreferredSize(new Dimension(150, 0));
         JButton btnDashboard = new JButton("Manuteções");
         JButton btnEquipamentos = new JButton("Gerar Relatório");
-        JButton btnManutencao = new JButton("Manutenções");
+        JButton btnEquip = new JButton("Adicionar Equipamento");
         sidebarPanel.add(btnDashboard);
         sidebarPanel.add(btnEquipamentos);
-        sidebarPanel.add(btnManutencao);
+        sidebarPanel.add(btnEquip);
         add(sidebarPanel, BorderLayout.WEST);
 
         // Painel principal para exibição dos equipamentos
@@ -72,6 +72,14 @@ public class EquipamentoScreen extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 ManutencaoScreen manutencaoScreen = new ManutencaoScreen();
                 manutencaoScreen.setVisible(true);
+
+            }
+        });
+        // Adiciona um evento ao botão
+        btnEquip.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new AddEquipamentoScreen().setVisible(true);
 
             }
         });
