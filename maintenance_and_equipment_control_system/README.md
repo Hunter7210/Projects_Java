@@ -166,7 +166,6 @@ classDiagram
     Equipamento --> Sensor
     Equipamento --> Manutencao
     Manutencao --> EmpresaManu
-    Equipamento --> QRCode
 ```
 
 ### Diagrama de Fluxo
