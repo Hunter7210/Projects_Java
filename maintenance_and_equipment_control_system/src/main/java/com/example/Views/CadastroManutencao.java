@@ -5,7 +5,6 @@ import org.bson.Document;
 import com.example.Controllers.EquipamentoController;
 import com.example.Controllers.ManutencaoController;
 
-
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -89,7 +88,7 @@ public class CadastroManutencao {
             @Override
             public void actionPerformed(ActionEvent e) {
                 ManutencaoController manutencaoController = new ManutencaoController();
-
+                String idManut = "";
                 String statusComboBoxtipoManutFormat = statusComboBoxtipoManut.getSelectedItem().toString();
                 String statusComboBoxManutFormat = statusComboBoxManut.getSelectedItem().toString();
                 String dataIniManutFormat = dataIniManut.getText();
@@ -98,7 +97,7 @@ public class CadastroManutencao {
                 String dataPrevisFimManutFormt = dataPrevisFimManut.getText();
 
                 // Adiciona a nova manutenção ao equipamento
-                manutencaoController.updateManutencao(codEquip, dataIniManutFormat, dataFimManutFormat,
+                manutencaoController.updateManutencao(codEquip, idManut, dataIniManutFormat, dataFimManutFormat,
                         statusComboBoxtipoManutFormat, statusComboBoxManutFormat, dataPrevisFimManutFormt,
                         dataPrevisIniManutFormat, empresasManut);
 

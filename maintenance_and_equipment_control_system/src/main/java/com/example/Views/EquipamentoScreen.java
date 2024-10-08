@@ -2,6 +2,10 @@ package com.example.Views;
 
 import javax.swing.*;
 
+import org.bson.Document;
+
+import com.example.Controllers.EquipamentoController;
+import com.example.Controllers.SensorController;
 import com.example.Models.Dados;
 import com.example.Models.EmpresaManu;
 import com.example.Models.Equipamento;
@@ -39,8 +43,8 @@ public class EquipamentoScreen extends JFrame {
         // Sidebar com botões
         JPanel sidebarPanel = new JPanel(new GridLayout(3, 1, 10, 10));
         sidebarPanel.setPreferredSize(new Dimension(150, 0));
-        JButton btnDashboard = new JButton("Add Equipamento");
-        JButton btnEquipamentos = new JButton("Equipamentos");
+        JButton btnDashboard = new JButton("Manuteções");
+        JButton btnEquipamentos = new JButton("Gerar Relatório");
         JButton btnManutencao = new JButton("Manutenções");
         sidebarPanel.add(btnDashboard);
         sidebarPanel.add(btnEquipamentos);
@@ -66,9 +70,9 @@ public class EquipamentoScreen extends JFrame {
         btnDashboard.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Abre a tela de login
-                new AddEquipamentoScreen();
-                dispose(); // Fecha a tela atual (opcional)
+                ManutencaoScreen manutencaoScreen = new ManutencaoScreen();
+                manutencaoScreen.setVisible(true);
+
             }
         });
 
@@ -120,17 +124,27 @@ public class EquipamentoScreen extends JFrame {
         // Exibe os sensores
         JLabel sensoresLabel = new JLabel("Sensores:");
         detalhesPanel.add(sensoresLabel);
-        for (Sensor sensor : equipamento.getSensores()) {
-            detalhesPanel.add(new JLabel("Sensor: " + sensor.getNomeSen() + " | Tipo: " + sensor.getFunSen()));
-        }
 
-        // Exibe as manutenções
-        JLabel manutencoesLabel = new JLabel("Manutenções:");
-        detalhesPanel.add(manutencoesLabel);
-        for (Manutencao manutencao : equipamento.getManutencoes()) {
-            detalhesPanel
-                    .add(new JLabel(
-                            "Manutenção: " + manutencao.getTipoManut() + " | Data: " + manutencao.getStatusManut()));
+        System.out.println("Equipamento: " + equipamento.getCodEquip());
+        System.out.println("Sensores: " + equipamento.getSensores());
+
+        System.out.println(equipamento);
+
+        for (Sensor sensor : equipamento.getSensores()) {
+            // Exibe informações básicas do sensor
+            JLabel sensorLabel = new JLabel("Sensor: " + sensor.getNomeSen() + " | Tipo: " + sensor.getFornecSen());
+            detalhesPanel.add(sensorLabel);
+
+            // Adiciona uma nova JLabel para exibir os dados do sensor
+            if (sensor.getDados() != null && !sensor.getDados().isEmpty()) {
+                for (Dados dado : sensor.getDados()) {
+                    detalhesPanel
+                            .add(new JLabel(
+                                    "   Valor: " + dado.getDadosDad() + " | UnidMedida: " + dado.getUnidMedidDad()));
+                }
+            } else {
+                detalhesPanel.add(new JLabel("   Nenhum dado disponível."));
+            }
         }
 
         // Exibe os QR Codes
@@ -146,26 +160,37 @@ public class EquipamentoScreen extends JFrame {
         detalhesFrame.setVisible(true);
     }
 
-    // Simula a carga de equipamentos (adapte conforme sua lógica de persistência)
     private List<Equipamento> carregarEquipamentos() {
+        EquipamentoController controlador = new EquipamentoController(); // Crie uma instância do controlador
         List<Equipamento> equipamentos = new ArrayList<>();
-        List<Dados> dados1 = new ArrayList<>();
-        List<EmpresaManu> empre = new ArrayList<>();
-        List<Sensor> sensor = new ArrayList<>();
-        List<Manutencao> manuten = new ArrayList<>();
-        List<QrCode> qr = new ArrayList<>();
-        // Simulação de dados
-        sensor.add(new Sensor("Sensor A", "Temperatura", "Funcionar", dados1));
-        sensor.add(new Sensor("Sensor A", "Temperatura", "Funcionar", dados1));
-        sensor.add(new Sensor("Sensor A", "Temperatura", "Funcionar", dados1));
-        manuten.add(new Manutencao(empre, "01/01/2024", "234", "234", "123", "123", "123"));
-        manuten.add(new Manutencao(empre, "01/01/2024", "234", "234", "123", "123", "123"));
-        qr.add(new QrCode("QR123", "15/08/2023", "re"));
 
-        equipamentos.add(new Equipamento("Máquina 1", "EQ001", "01/01/2022", "Tipo A", "Fornecedor X", 5, "Ativo",
-                sensor, manuten, qr));
-        equipamentos.add(new Equipamento("Máquina 2", "EQ002", "05/05/2023", "Tipo B", "Fornecedor Y", 3, "Inativo",
-                sensor, manuten, qr));
+        // Chame o método do controlador para obter todos os equipamentos
+        List<Document> documentos = controlador.readTodosEquipamentos();
+
+        // Iterar sobre os documentos e criar instâncias de Equipamento
+        for (Document doc : documentos) {
+            String nomeEqui = doc.getString("nomeEqui");
+            String codEquip = doc.getString("codEquip");
+            String dataCompraEquip = doc.getString("dataCompraEquip");
+            String tipoEquip = doc.getString("tipoEquip");
+            String fornecEquip = doc.getString("fornecEquip");
+            int qtdSensorEquip = doc.getInteger("qtdSensorEquip");
+            String statusEquip = doc.getString("statusEquip");
+
+            // Cria uma instância do SensorController para buscar sensores
+            SensorController sc = new SensorController();
+
+            // Aqui chamamos o método que busca os sensores associados ao equipamento
+            List<Sensor> sensores = sc.readSensoresPorEquipamento(codEquip); // Busque os sensores pelo código do
+                                                                             // equipamento
+            List<Manutencao> manutencoes = new ArrayList<>(); // Substitua por lógica real
+            List<QrCode> qrCodes = new ArrayList<>(); // Substitua por lógica real
+
+            // Criação do objeto Equipamento com os sensores carregados
+            Equipamento equipamento = new Equipamento(nomeEqui, codEquip, dataCompraEquip, tipoEquip, fornecEquip,
+                    qtdSensorEquip, statusEquip, sensores, manutencoes, qrCodes);
+            equipamentos.add(equipamento);
+        }
 
         return equipamentos;
     }

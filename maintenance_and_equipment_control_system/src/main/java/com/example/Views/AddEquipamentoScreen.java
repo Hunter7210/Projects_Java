@@ -1,9 +1,6 @@
 package com.example.Views;
 
 import com.example.Controllers.EquipamentoController;
-import com.example.Models.Equipamento;
-import com.example.Models.Manutencao;
-import com.example.Models.Sensor;
 
 import javax.swing.*;
 

@@ -2,10 +2,11 @@ package com.example;
 
 import javax.swing.SwingUtilities;
 
+import com.example.Views.CadastroFuncionarioScreen;
 import com.example.Views.HomeScreen;
 
 public class Main {
     public static void main(String[] args) {
-        SwingUtilities.invokeLater( HomeScreen::new);
+        SwingUtilities.invokeLater(HomeScreen::new);
     }
 }

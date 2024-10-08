@@ -11,6 +11,7 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class Manutencao {
     private List<EmpresaManu> empresaManutencao;
+    private String idManut;
     private String tipoManut;
     private String statusManut;
     private String dataIniManut;

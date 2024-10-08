@@ -5,10 +5,14 @@ import org.bson.Document;
 import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
+import com.example.EquipamentoNotFoundException;
 import com.example.Connection.MongoConnection;
 import com.example.Models.Equipamento;
+import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Filters;
@@ -35,7 +39,7 @@ public class EquipamentoController {
         // Cria um documento temporário para conter todos os parâmetros e organiza-los
         // em pares chave-valor
         Document equipamento = new Document("nomeEqui", nomeEqui)
-                .append("codEquip", codEquipFormat(codEquip))
+                .append("codEquip", codFormat(codEquip))
                 .append("dataCompraEquip", dataCompraEquip)
                 .append("tipoEquip", tipoEquip)
                 .append("fornecEquip", fornecEquip)
@@ -53,14 +57,14 @@ public class EquipamentoController {
     }
 
     // Função de exemplo para criar sensor
-    public Document createSensor(String nomeSen, String fornecSen, String funSen, List<Document> acionamentos) {
+    public Document createSensor(String nomeSen, String fornecSen, String funSen, List<Document> dados) {
         return new Document("nomeSen", nomeSen)
                 .append("fornecSen", fornecSen)
                 .append("funSen", funSen)
-                .append("Acionamento", acionamentos);
+                .append("Dados", dados);
     }
 
-    // Função de exemplo para criar acionamento
+    // Função de exemplo para criar dados
     public Document createDados(double dadosDad, String unidMedDad) {
         return new Document("timeStampDad", timeStamp())
                 .append("dadosDad", dadosDad)
@@ -75,17 +79,43 @@ public class EquipamentoController {
     }
 
     /* READ */
-    
-    public List<Document> readEquipamento(String codEquip) {
-        MongoDatabase database = MongoConnection.connectToDatabase();
-        MongoCollection<Document> collection = database.getCollection("Equipamento");
+    public Document readEquipamentoUnico(String codEquip) {
+        try {
+            MongoDatabase database = MongoConnection.connectToDatabase();
+            MongoCollection<Document> collection = database.getCollection("Equipamento");
 
-        
-          Document equipamento = collection.find(Filters.eq("codEquip", codEquip)).first();
-        if (equipamento != null) {
-            System.out.println(equipamento.toJson());
-        } else {
-            System.out.println("Equipamento não encontrado.");
+            Document equipamento = collection.find(Filters.eq("codEquip", codEquip)).first();
+            if (equipamento != null) {
+                return equipamento;
+            } else {
+                throw new EquipamentoNotFoundException("Equipamento com código " + codEquip + " não encontrado.");
+            }
+        } catch (Exception e) {
+            System.err.println("Erro ao tentar buscar o equipamento: " + e.getMessage());
+            return null; // ou você pode optar por relançar a exceção
+        } finally {
+            // Caso haja uma lógica para fechar a conexão ou outros recursos
+        }
+    }
+
+    public List<Document> readTodosEquipamentos() {
+        List<Document> equipamentos = new ArrayList<>();
+        try {
+            MongoDatabase database = MongoConnection.connectToDatabase();
+            MongoCollection<Document> collection = database.getCollection("Equipamento");
+
+            // Buscar todos os documentos
+            FindIterable<Document> results = collection.find(); // Find sem filtros busca todos os itens
+
+            // Iterar sobre os resultados e adicioná-los à lista
+            for (Document doc : results) {
+                equipamentos.add(doc);
+            }
+
+            return equipamentos;
+        } catch (Exception e) {
+            System.err.println("Erro ao tentar buscar os equipamentos: " + e.getMessage());
+            return Collections.emptyList(); // Retorna uma lista vazia em caso de erro
         }
     }
 
@@ -123,7 +153,7 @@ public class EquipamentoController {
         return dataHoraFormatada;
     }
 
-    public String codEquipFormat(String codEquipamento) {
+    public String codFormat(String codEquipamento) {
         MongoDatabase database = MongoConnection.connectToDatabase();
         MongoCollection<Document> collection = database.getCollection("Equipamento");
 
