@@ -147,14 +147,6 @@ classDiagram
         +atualizarEmpre()
     }
 
-  <!--   class QRCode {
-        +String imgQr
-        +String titQr
-        +String descQr
-        
-        +gerarQRCode()
-    } -->
-
     class Funcionario {
         +String nomeFunc
         +String reFunc
