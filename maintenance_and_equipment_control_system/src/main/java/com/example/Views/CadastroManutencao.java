@@ -95,16 +95,23 @@ public class CadastroManutencao {
                 String dataFimManutFormat = dataFimManut.getText();
                 String dataPrevisIniManutFormat = dataPrevisIniManut.getText();
                 String dataPrevisFimManutFormt = dataPrevisFimManut.getText();
-
+        
                 // Adiciona a nova manutenção ao equipamento
                 manutencaoController.updateManutencao(codEquip, idManut, dataIniManutFormat, dataFimManutFormat,
                         statusComboBoxtipoManutFormat, statusComboBoxManutFormat, dataPrevisFimManutFormt,
                         dataPrevisIniManutFormat, empresasManut);
-
+        
+                // Exibe mensagem de sucesso
                 JOptionPane.showMessageDialog(null, "Manutenção adicionada com sucesso!");
+        
+                // Fecha o JFrame atual (cadastro de manutenção)
+                SwingUtilities.getWindowAncestor(painelManut).dispose();
+        
+                // Reabre a tela de lista de manutenções, atualizada
+                new ListaManutencaoScreen(codEquip);
             }
         });
-
+        
         gbc.gridx = 0;
         gbc.gridy = 5; // Posição abaixo do botão Adicionar Empresa
         gbc.gridwidth = 2;

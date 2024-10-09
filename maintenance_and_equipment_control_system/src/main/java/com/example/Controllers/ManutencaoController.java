@@ -7,8 +7,10 @@ import java.util.Collections;
 import java.util.List;
 
 import org.bson.Document;
+import org.bson.types.ObjectId;
 
 import com.example.Connection.MongoConnection;
+import com.mongodb.MongoWriteException;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
@@ -32,7 +34,8 @@ public class ManutencaoController {
 
     // Função de exemplo para criar e adicionar manutenção a um equipamento
     // existente
-    public void updateManutencao(String codEquip, String idManut, String dataIniManut, String dataFimManut, String tipoManut,
+    public void updateManutencao(String codEquip, String idManut, String dataIniManut, String dataFimManut,
+            String tipoManut,
             String statusManut, String dataPrevisFimManut, String dataPrevisIniManut, List<Document> empresasManut) {
 
         // Conecta ao banco de dados MongoDB
@@ -79,26 +82,55 @@ public class ManutencaoController {
         }
     }
 
+    public List<Document> getManutencoes(String codEquip) {
+        List<Document> manutencoes = new ArrayList<>();
+        try {
+            MongoDatabase database = MongoConnection.connectToDatabase();
+            MongoCollection<Document> collection = database.getCollection("Equipamento");
+
+            // Busca o documento do equipamento específico
+            Document equipamento = collection.find(Filters.eq("codEquip", codEquip)).first();
+
+            if (equipamento != null && equipamento.containsKey("Manutencao")) {
+                List<Document> listaManutencao = (List<Document>) equipamento.get("Manutencao");
+                for (Document manutencao : listaManutencao) {
+                    manutencoes.add(manutencao); // Adiciona o documento de manutenção diretamente à lista
+                }
+            }
+        } catch (Exception e) {
+            System.err.println("Erro ao tentar buscar as manutenções: " + e.getMessage());
+        }
+        return manutencoes; // Retorna uma lista de documentos representando as manutenções
+    }
+
     public void updateStatusManutencao(String codEquip, String manutencaoId, String novoStatus) {
-        // Conecta ao banco de dados MongoDB
-        MongoDatabase database = MongoConnection.connectToDatabase();
-        MongoCollection<Document> collection = database.getCollection("Equipamento");
+        try {
+            // Conecta ao banco de dados MongoDB
+            MongoDatabase database = MongoConnection.connectToDatabase();
+            MongoCollection<Document> collection = database.getCollection("Equipamento");
 
+            // Atualiza o status da manutenção
+            collection.updateOne(
+                    Filters.eq("codEquip", codEquip), // Localiza o equipamento pelo código
+                    Updates.set("Manutencao.$[elem].statusManut", novoStatus), // Atualiza o status da manutenção
+                    new UpdateOptions()
+                            .arrayFilters(Arrays.asList(Filters.eq("elem._id", manutencaoId))) // Filtra a
+                                                                                               // manutenção
+                                                                                               // a ser
+                                                                                               // atualizada
+            );
 
-        // Atualiza o status da manutenção
-        collection.updateOne(
-                Filters.eq("codEquip", codEquip), // Localiza o equipamento pelo código
-                Updates.set("Manutencao.$[elem].statusManut", novoStatus), // Atualiza o status da manutenção
-                new UpdateOptions()
-                        .arrayFilters(Arrays.asList(Filters.eq("elem._id", new Document("$oid", manutencaoId)))) // Filtra
-                                                                                                                 // a
-                                                                                                                 // manutenção
-                                                                                                                 // a
-                                                                                                                 // ser
-                                                                                                                 // atualizada
-        );
-
-        System.out.println("Status da manutenção atualizado para o equipamento: " + codEquip);
+            System.out.println("Status da manutenção atualizado para o equipamento: " + codEquip);
+        } catch (MongoWriteException e) {
+            System.err.println("Erro ao atualizar status da manutenção: " + e.getMessage());
+            e.printStackTrace();
+        } catch (IllegalArgumentException e) {
+            System.err.println("ID da manutenção inválido: " + e.getMessage());
+            e.printStackTrace();
+        } catch (Exception e) {
+            System.err.println("Erro inesperado: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     public void deleteManutencao(String codEquip, String manutencaoId) {
@@ -109,15 +141,14 @@ public class ManutencaoController {
         // Remove a manutenção da lista de manutenções
         collection.updateOne(
                 Filters.eq("codEquip", codEquip), // Localiza o equipamento pelo código
-                Updates.pull("Manutencao", Filters.eq("_id", new Document("$oid", manutencaoId))) // Remove a manutenção
-                                                                                                  // com o ID
-                                                                                                  // especificado
+                Updates.pull("Manutencao", Filters.eq("idManut", manutencaoId)) // Remove a
+                                                                                              // manutenção
+                                                                                              // com o ID
+                                                                                              // especificado
         );
 
         System.out.println("Manutenção removida do equipamento: " + codEquip);
-    
     }
-
 
     public String codFormatManut() {
         MongoDatabase database = MongoConnection.connectToDatabase();

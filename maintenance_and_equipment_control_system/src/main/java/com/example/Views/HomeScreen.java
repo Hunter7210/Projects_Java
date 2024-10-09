@@ -37,7 +37,7 @@ public class HomeScreen extends JFrame {
         centerPanel.setLayout(new BorderLayout());
 
         // Imagem central
-        ImageIcon imageIcon = new ImageIcon("C:/Users/DevTarde/Documents/Heitor/4_Termo/Java/Projects_Java/maintenance_and_equipment_control_system/src/main/java/com/example/assets/img/IMGSistema.png"); // Substitua pelo caminho da sua imagem
+        ImageIcon imageIcon = new ImageIcon("C:/Users/Heito/OneDrive/Documentos/SENAI - DEV - ATUAL/Projects_Java/maintenance_and_equipment_control_system/src/main/java/com/example/assets/img/IMGSistema.png"); // Substitua pelo caminho da sua imagem
         
         // Redimensiona a imagem
         Image image = imageIcon.getImage(); // Converte ImageIcon em Image

@@ -1,19 +1,16 @@
 package com.example.Views;
 
-import com.example.Controllers.EquipamentoController; // Importe seu controlador
+import com.example.Controllers.EquipamentoController;
 import com.example.Models.EmpresaManu;
-import com.example.Models.Equipamento;
 import com.example.Models.Manutencao;
 
 import javax.swing.*;
 import org.bson.Document;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.List;  
 
 public class ManutencaoScreen extends JFrame {
 
@@ -96,7 +93,7 @@ public class ManutencaoScreen extends JFrame {
                 @Override
                 public void mouseClicked(MouseEvent e) {
                     // Abre a tela de detalhes do equipamento
-                    new EquipamentoDetailScreen(codEquip); // Passa o nome do equipamento
+                    new ListaManutencaoScreen(codEquip); // Passa o nome do equipamento
                     dispose(); // Fecha a tela atual (opcional)
                 }
             });

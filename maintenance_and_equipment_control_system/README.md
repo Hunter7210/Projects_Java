@@ -4,86 +4,115 @@
 O Sistema de Controle de Manutenções e Equipamentos será desenvolvido para gerenciar as manutenções de máquinas, registrando as atualizações diárias e criando um histórico detalhado. O sistema permitirá a diferenciação de acessos entre administradores, gerentes e funcionários, proporcionando funcionalidades específicas para cada grupo. Através de sensores, o sistema monitorará o funcionamento dos equipamentos e gerará relatórios pertinentes para a gestão eficiente e a tomada de decisões.
 
 ## Funcionalidades
-- **Registro de Manutenções:** Permite o registro de manutenções preventivas e corretivas, garantindo que todas as intervenções sejam documentadas.
-- **Relatórios Personalizados:** Geração de relatórios de manutenção e funcionamento que podem ser filtrados por data, tipo de manutenção e status do equipamento.
-- **Notificações de Manutenção:** O sistema poderá enviar alertas para gerentes sobre manutenções preventivas programadas, garantindo que as máquinas sejam mantidas em condições ideais de operação.
+- **Registro de Manutenções:** 
+- **Relatórios Personalizados:** 
+- **Notificações de Manutenção:** 
 
 ## Escopo do Sistema
+- **1. Cadastro e Gerenciamento de Equipamentos**
+  - **Cadastro Completo:** 
+  - **CRUD de Equipamentos:** 
+  - **Histórico de Manutenções:** 
 
-### 1. Cadastro e Gerenciamento de Equipamentos
-- **Cadastro Completo:** Permitir o cadastro de equipamentos com informações como nome, data de compra, tipo, fornecedor, quantidade de sensores e status.
-- **CRUD de Equipamentos:** Possibilitar a criação, leitura, atualização e exclusão (CRUD) dos registros de equipamentos.
-- **Histórico de Manutenções:** Registrar cada manutenção realizada, incluindo informações da empresa responsável, tipo de manutenção, status e datas de início e fim.
+- **2. Gerenciamento de Funcionários**
+  - **Cadastro de Funcionários:** 
+  - **CRUD de Funcionários:** 
 
-### 2. Gerenciamento de Funcionários
-- **Cadastro de Funcionários:** Permitir o cadastro com informações pessoais (nome, registro, setor, cargo, telefone, e-mail, senha).
-- **CRUD de Funcionários:** Implementar funcionalidades para criar, visualizar, atualizar e deletar registros de funcionários.
+- **3. Controle de Manutenção**
+  - **Inserção de Dados de Manutenção:** 
+  - **Relatórios de Manutenção:** 
+  - **Indicação de Empresas de Manutenção:** 
 
-### 3. Controle de Manutenção
-- **Inserção de Dados de Manutenção:** Permitir que os gerentes insiram informações sobre as manutenções realizadas e agendem manutenções preventivas ou corretivas.
-- **Relatórios de Manutenção:** Gerar relatórios detalhados sobre as manutenções, incluindo histórico e status dos equipamentos.
-- **Indicação de Empresas de Manutenção:** Listar empresas parceiras para a realização de manutenções, com informações de contato.
+- **4. Monitoramento de Sensores**
+  - **Integração com Sensores:** 
+  - **Relatórios de Funcionamento:** 
 
-### 4. Monitoramento de Sensores
-- **Integração com Sensores:** O sistema deverá se integrar a sensores instalados nos equipamentos para monitorar a velocidade e a quantidade de acionamentos.
-- **Relatórios de Funcionamento:** Gerar relatórios que indiquem variações nos dados dos sensores, sinalizando possíveis problemas nos equipamentos.
+- **5. Estrutura do Banco de Dados Não Relacional**
+  - **Modelo de Dados:**
+    - **Equipamento:**
+      - Campos: `nomeEquip`, `dataCompraEquip`, `tipoEquip`, `fornecEquip`, `qtdSensorEquip`, `statusEquip`.
+      - Relações: `Sensor` e `Manutencao`.
+    - **Funcionarios:**
+      - Campos: `nomeFunc`, `reFunc`, `setorFunc`, `cargoFunc`, `telefoneFunc`, `emailFunc`, `senhaFunc`.
 
-### 5. Estrutura do Banco de Dados Não Relacional
-- **Modelo de Dados:**
-  - **Equipamento:**
-    - Campos: `nomeEquip`, `dataCompraEquip`, `tipoEquip`, `fornecEquip`, `qtdSensorEquip`, `statusEquip`.
-    - Relações: `Sensor` (com dados de funcionamento) e `Manutencao` (com histórico de manutenções).
-  - **Funcionarios:**
-    - Campos: `nomeFunc`, `reFunc`, `setorFunc`, `cargoFunc`, `telefoneFunc`, `emailFunc`, `senhaFunc`.
+- **6. API's e Métodos**
+  - **API para Exibição de Relatórios:** 
+  - **Métodos:**
+    - **Equipamento:** 
+      - `adicionarEquip()`
+      - `visualizarTodoEquip()`
+      - `visualizarEspeEquip()`
+      - `deletarEquip()`
+      - `atualizarEquip()`
+    - **Sensor:**
+      - `adicionarSenso()`
+      - `visualizarTodoSenso()`
+      - `visualizarEspeSenso()`
+      - `deletarSenso()`
+      - `atualizarSenso()`
+    - **Dados:**
+      - `adicionarDados()`
+    - **Manutencao:**
+      - `adicionarManut()`
+      - `visualizarTodoManut()`
+      - `visualizarEspeManut()`
+      - `atualizarManut()`
+      - `calcularProxManut()`
+    - **EmpresaManu:**
+      - `adicionarEmpre()`
+      - `visualizarTodoEmpre()`
+      - `visualizarEspeEmpre()`
+      - `deletarEmpresa()`
+      - `atualizarEmpre()`
+    - **Funcionario:**
+      - `adicionarFunc()`
+      - `visualizarTodoFunc()`
+      - `visualizarEspeFunc()`
+      - `deletarFunc()`
+      - `atualizarFunc()`
 
-### 6. API's e Métodos
-- **API para Exibição de Relatórios:** Desenvolvimento de uma aplicação web para visualizar relatórios.
-- **Métodos:**
-  - **Equipamento:** 
-    - `adicionarEquip()`
-    - `visualizarTodoEquip()`
-    - `visualizarEspeEquip()`
-    - `deletarEquip()`
-    - `atualizarEquip()`
-  - **Sensor:**
-    - `adicionarSenso()`
-    - `visualizarTodoSenso()`
-    - `visualizarEspeSenso()`
-    - `deletarSenso()`
-    - `atualizarSenso()`
-  - **Dados:**
-    - `adicionarDados()`
-  - **Manutencao:**
-    - `adicionarManut()`
-    - `visualizarTodoManut()`
-    - `visualizarEspeManut()`
-    - `atualizarManut()`
-    - `calcularProxManut()`
-  - **EmpresaManu:**
-    - `adicionarEmpre()`
-    - `visualizarTodoEmpre()`
-    - `visualizarEspeEmpre()`
-    - `deletarEmpresa()`
-    - `atualizarEmpre()`
-  - **Funcionario:**
-    - `adicionarFunc()`
-    - `visualizarTodoFunc()`
-    - `visualizarEspeFunc()`
-    - `deletarFunc()`
-    - `atualizarFunc()`
+- **7. Níveis de Acesso**
+  - **Admin:** 
+  - **Gerente:** 
+  - **Funcionário:** 
 
-### 7. Níveis de Acesso
-- **Admin:** Acesso total ao sistema, incluindo gestão de funcionários e equipamentos.
-- **Gerente:** Acesso a relatórios diários de produção e histórico de manutenções, com possibilidade de contato com empresas de manutenção.
-- **Funcionário:** Acesso apenas para visualizar informações pertinentes ao seu trabalho, sem permissões para edição.
+## Manual do Usuário
+
+### Funcionalidades Principais:
+
+- **1. Página Inicial (Home)**
+  - O usuário pode escolher acessar o sistema de duas maneiras:
+    - **Página de Login:** 
+    - **Página de Cadastro:** 
+
+- **2. Cadastro**
+  - O usuário pode acessar a página de **Cadastro** e, após o cadastro, é redirecionado para a página de login.
+
+- **3. Página de Equipamentos**
+  - Uma vez logado, o usuário tem acesso à lista de equipamentos e pode:
+    - Selecionar um equipamento da lista.
+    - Gerar relatórios ou QR Codes.
+    - Atualizar as informações do equipamento.
+
+### Fluxo de Acesso ao Sistema
+
+- **1. Login**
+  - Requer login para acessar a lista de equipamentos e funcionalidades avançadas.
+  
+- **2. Página de Equipamentos**
+  - **Gerente:** Acesso a geração de QR Code e relatórios.
+
+- **3. Manutenções**
+  - Possibilita geração de relatórios de manutenções.
+
+### Relatórios e Gerenciamento de Equipamentos
+
+- **Relatórios de Manutenção:** Visualização completa de manutenção preventiva e corretiva.
+- **API de QR Code:** Opção de gerar novos QR Codes para equipamentos.
 
 ## Diagramas
 ### Diagrama de Estrutura do Banco de Dados
 ### Diagrama de Classe
-# Sistema de Controle de Manutenções e Equipamentos
-
-## Diagrama de Classes
-
 ```mermaid
 classDiagram
     class Equipamento {
@@ -155,7 +184,7 @@ classDiagram
         +String telefoneFunc
         +String emailFunc
         +String senhaFunc
-        
+
         +adicionarFunc()
         +visualizarTodoFunc()
         +visualizarEspeFunc()
@@ -163,9 +192,9 @@ classDiagram
         +atualizarFunc()
     }
 
-    Equipamento --> Sensor
-    Equipamento --> Manutencao
-    Manutencao --> EmpresaManu
+    Equipamento "1" -- "0..*" Sensor : possui >
+    Equipamento "1" -- "0..*" Manutencao : possui >
+    Manutencao "1" -- "0..*" EmpresaManu : realiza >
 ```
 
 ### Diagrama de Fluxo

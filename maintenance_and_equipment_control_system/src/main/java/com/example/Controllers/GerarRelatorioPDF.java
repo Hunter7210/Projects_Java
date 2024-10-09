@@ -26,87 +26,55 @@ public class GerarRelatorioPDF {
             // Prepara o conteúdo da página
             try (PDPageContentStream contentStream = new PDPageContentStream(document, page)) {
                 // Define a fonte para o título
-                  contentStream.setFont(new PDType1Font(Standard14Fonts.FontName.HELVETICA_BOLD), 12); // Definindo a
-                                                                                                     // fonte
-                                                                                                     // corretamente
+                contentStream.setFont(new PDType1Font(Standard14Fonts.FontName.HELVETICA_BOLD), 14);
                 contentStream.beginText();
-                contentStream.newLineAtOffset(50, 750); // Posição inicial
+                
+                // Define a posição inicial (ajuste o valor Y conforme necessário)
+                contentStream.newLineAtOffset(50, 750);
 
                 // Adiciona título do relatório
                 contentStream.showText("Relatório de Equipamento");
-                contentStream.newLine();
                 contentStream.endText();
 
-                // Altera a fonte para o conteúdo
-                  contentStream.setFont(new PDType1Font(Standard14Fonts.FontName.HELVETICA_BOLD), 12); // Definindo a
-                                                                                                     // fonte
-                                                                                                     // corretamente
-                
-                // Inicia o bloco de texto para conteúdo
-                contentStream.beginText();
-                contentStream.newLineAtOffset(50, 720); // Posição inicial do conteúdo
+                // Alterando a fonte para o conteúdo
+                contentStream.setFont(new PDType1Font(Standard14Fonts.FontName.HELVETICA), 12);
 
-                // Adiciona informações do equipamento ao PDF
-                contentStream.showText("Nome do Equipamento: " + equipamento.getNomeEqui());
-                contentStream.newLine();
-                contentStream.showText("Código do Equipamento: " + equipamento.getCodEquip());
-                contentStream.newLine();
-                contentStream.showText("Data de Compra: " + equipamento.getDataCompraEquip());
-                contentStream.newLine();
-                contentStream.showText("Tipo: " + equipamento.getTipoEquip());
-                contentStream.newLine();
-                contentStream.showText("Fornecedor: " + equipamento.getFornecEquip());
-                contentStream.newLine();
-                contentStream.showText("Quantidade de Sensores: " + equipamento.getQtdSensorEquip());
-                contentStream.newLine();
-                contentStream.showText("Status: " + equipamento.getStatusEquip());
-                contentStream.newLine();
-                contentStream.newLine(); // Espaço extra entre seções
+                // Nova posição após o título (diminui o valor Y para descer)
+                float yPosition = 730;
 
-                // Adiciona sensores
-                contentStream.showText("Sensores:");
-                contentStream.newLine();
+                // Adiciona informações do equipamento
+                yPosition = addTexto(contentStream, "Nome do Equipamento: " + equipamento.getNomeEqui(), 50, yPosition);
+                yPosition = addTexto(contentStream, "Código do Equipamento: " + equipamento.getCodEquip(), 50, yPosition);
+                yPosition = addTexto(contentStream, "Data de Compra: " + equipamento.getDataCompraEquip(), 50, yPosition);
+                yPosition = addTexto(contentStream, "Tipo: " + equipamento.getTipoEquip(), 50, yPosition);
+                yPosition = addTexto(contentStream, "Fornecedor: " + equipamento.getFornecEquip(), 50, yPosition);
+                yPosition = addTexto(contentStream, "Quantidade de Sensores: " + equipamento.getQtdSensorEquip(), 50, yPosition);
+                yPosition = addTexto(contentStream, "Status: " + equipamento.getStatusEquip(), 50, yPosition);
+                yPosition -= 20; // Espaçamento extra
+
+                // Adiciona informações de sensores
+                yPosition = addTexto(contentStream, "Sensores:", 50, yPosition);
                 if (equipamento.getSensores() != null && !equipamento.getSensores().isEmpty()) {
                     for (Sensor sensor : equipamento.getSensores()) {
-                        contentStream.showText("  - " + sensor.toString());
-                        contentStream.newLine();
+                        yPosition = addTexto(contentStream, "  Nome: " + sensor.getNomeSen() + ", Tipo: " + sensor.getFornecSen(), 50, yPosition);
                     }
                 } else {
-                    contentStream.showText("  Nenhum sensor registrado");
-                    contentStream.newLine();
+                    yPosition = addTexto(contentStream, "  Nenhum sensor registrado", 50, yPosition);
                 }
-
-                contentStream.newLine(); // Espaço extra entre seções
+                yPosition -= 20;
 
                 // Adiciona manutenções
-                contentStream.showText("Manutenções:");
-                contentStream.newLine();
+                yPosition = addTexto(contentStream, "Manutenções:", 50, yPosition);
                 if (equipamento.getManutencoes() != null && !equipamento.getManutencoes().isEmpty()) {
                     for (Manutencao manutencao : equipamento.getManutencoes()) {
-                        contentStream.showText("  - " + manutencao.toString());
-                        contentStream.newLine();
+                        yPosition = addTexto(contentStream, "  Codigo: " + manutencao.getIdManut() + 
+                                                      ", Tipo: " + manutencao.getTipoManut() +
+                                                      ", Status: " + manutencao.getStatusManut(), 50, yPosition);
                     }
                 } else {
-                    contentStream.showText("  Nenhuma manutenção registrada");
-                    contentStream.newLine();
+                    yPosition = addTexto(contentStream, "  Nenhuma manutenção registrada", 50, yPosition);
                 }
-
-                contentStream.newLine(); // Espaço extra entre seções
-
-                // Adiciona QR Codes
-                contentStream.showText("QR Codes:");
-                contentStream.newLine();
-                if (equipamento.getQrcodes() != null && !equipamento.getQrcodes().isEmpty()) {
-                    for (QrCode qrcode : equipamento.getQrcodes()) {
-                        contentStream.showText("  - " + qrcode.toString());
-                        contentStream.newLine();
-                    }
-                } else {
-                    contentStream.showText("  Nenhum QR Code registrado");
-                    contentStream.newLine();
-                }
-
-                contentStream.endText();
+                yPosition -= 20;
             }
 
             // Salva o documento em um arquivo
@@ -116,5 +84,14 @@ public class GerarRelatorioPDF {
         } catch (IOException ex) {
             ex.printStackTrace();
         }
+    }
+
+    // Função auxiliar para adicionar texto ao PDF e ajustar a posição vertical
+    private static float addTexto(PDPageContentStream contentStream, String text, float x, float y) throws IOException {
+        contentStream.beginText();
+        contentStream.newLineAtOffset(x, y);
+        contentStream.showText(text);
+        contentStream.endText();
+        return y - 15; // Subtrai o valor para descer a linha, ajustando o espaçamento
     }
 }

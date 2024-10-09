@@ -27,9 +27,6 @@ public class CadastroEquipamento extends JFrame {
     private JButton salvarButton;
     private JButton cancelarButton;
     private JButton adicionarSensorButton;
-    private JButton adicionarManutencaoButton;
-    private JButton adicionarQrCodeButton;
-
     private EquipamentoController controller;
 
     public CadastroEquipamento() {

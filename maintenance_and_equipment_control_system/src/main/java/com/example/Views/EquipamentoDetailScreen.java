@@ -67,7 +67,7 @@ public class EquipamentoDetailScreen extends JFrame {
              * }
              */ });
 
-        // Adiciona ação ao botão "Excluir Manutenção"
+      /*   // Adiciona ação ao botão "Excluir Manutenção"
         btnDeleteManutencao.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -78,7 +78,7 @@ public class EquipamentoDetailScreen extends JFrame {
                     JOptionPane.showMessageDialog(null, "Manutenção excluída com sucesso.");
                 }
             }
-        });
+        }); */
 
         // Ação para voltar à tela anterior
         btnVoltar.addActionListener(new ActionListener() {

@@ -20,6 +20,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EquipamentoScreen extends JFrame {
+    private JPanel equipamentosPanel; // Mover isso para o escopo da classe
+    private JScrollPane scrollPane; // Também mover para o escopo da classe
 
     public EquipamentoScreen() {
         // Configurações básicas do JFrame
@@ -45,46 +47,36 @@ public class EquipamentoScreen extends JFrame {
         sidebarPanel.setPreferredSize(new Dimension(150, 0));
         JButton btnDashboard = new JButton("Manuteções");
         JButton btnEquip = new JButton("Adicionar Equipamento");
+        JButton btnAtualizar = new JButton("Atualizar"); // Botão para atualizar a página
         sidebarPanel.add(btnDashboard);
-        
         sidebarPanel.add(btnEquip);
+        sidebarPanel.add(btnAtualizar); // Adiciona o botão de atualizar
         add(sidebarPanel, BorderLayout.WEST);
 
         // Painel principal para exibição dos equipamentos
-        JPanel equipamentosPanel = new JPanel();
+        equipamentosPanel = new JPanel();
         equipamentosPanel.setLayout(new BoxLayout(equipamentosPanel, BoxLayout.Y_AXIS));
 
-        // Carregando equipamentos e criando os cards
-        List<Equipamento> listaEquipamentos = carregarEquipamentos();
-        for (Equipamento equipamento : listaEquipamentos) {
-            JPanel cardEquipamento = criarCardEquipamento(equipamento);
-            equipamentosPanel.add(cardEquipamento);
-        }
+        // Carregar os equipamentos inicialmente
+        atualizarPagina();
 
         // Colocando a lista em um JScrollPane
-        JScrollPane scrollPane = new JScrollPane(equipamentosPanel);
+        scrollPane = new JScrollPane(equipamentosPanel);
         add(scrollPane, BorderLayout.CENTER);
 
-        // Adiciona um evento ao botão
-        btnDashboard.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                ManutencaoScreen manutencaoScreen = new ManutencaoScreen();
-                manutencaoScreen.setVisible(true);
-
-            }
+        // Ações dos botões
+        btnDashboard.addActionListener(e -> {
+            ManutencaoScreen manutencaoScreen = new ManutencaoScreen();
+            manutencaoScreen.setVisible(true);
         });
-        
-        // Adiciona um evento ao botão
-        btnEquip.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new AddEquipamentoScreen().setVisible(true);
 
-            }
+        btnEquip.addActionListener(e -> {
+            new AddEquipamentoScreen().setVisible(true);
         });
-        
-       
+
+        btnAtualizar.addActionListener(e -> {
+            atualizarPagina(); // Chama o método de atualização quando o botão for pressionado
+        });
 
         setVisible(true);
     }
@@ -96,11 +88,9 @@ public class EquipamentoScreen extends JFrame {
         card.setBackground(Color.WHITE);
         card.setPreferredSize(new Dimension(600, 150));
 
-        // Cabeçalho do equipamento
         JLabel nomeEquipLabel = new JLabel("Equipamento: " + equipamento.getNomeEqui());
         nomeEquipLabel.setFont(new Font("Arial", Font.BOLD, 16));
 
-        // Informações principais
         JTextArea detalhesArea = new JTextArea(
                 "Código: " + equipamento.getCodEquip() +
                         "\nData de Compra: " + equipamento.getDataCompraEquip() +
@@ -111,11 +101,9 @@ public class EquipamentoScreen extends JFrame {
         detalhesArea.setEditable(false);
         detalhesArea.setBackground(Color.WHITE);
 
-        // Botão de detalhes para expandir informações
         JButton detalhesButton = new JButton("Ver Detalhes");
         detalhesButton.addActionListener(e -> mostrarDetalhesEquipamento(equipamento));
 
-        // Adiciona os componentes ao card
         card.add(nomeEquipLabel, BorderLayout.NORTH);
         card.add(detalhesArea, BorderLayout.CENTER);
         card.add(detalhesButton, BorderLayout.SOUTH);
@@ -157,14 +145,13 @@ public class EquipamentoScreen extends JFrame {
             }
         }
 
-        
         JButton btnRelatorio = new JButton("Gerar Relatório");
         detalhesPanel.add(btnRelatorio);
-         // Adiciona um evento ao botão
-         btnRelatorio.addActionListener(new ActionListener() {
+        // Adiciona um evento ao botão
+        btnRelatorio.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                    GerarRelatorioPDF.gerarPDF(equipamento);
+                GerarRelatorioPDF.gerarPDF(equipamento);
             }
         });
 
@@ -173,14 +160,26 @@ public class EquipamentoScreen extends JFrame {
         detalhesFrame.setVisible(true);
     }
 
-    private List<Equipamento> carregarEquipamentos() {
-        EquipamentoController controlador = new EquipamentoController(); // Crie uma instância do controlador
-        List<Equipamento> equipamentos = new ArrayList<>();
+    // Método para atualizar a página de equipamentos
+    private void atualizarPagina() {
+        equipamentosPanel.removeAll(); // Remove todos os componentes antigos
 
-        // Chame o método do controlador para obter todos os equipamentos
+        List<Equipamento> listaEquipamentos = carregarEquipamentos();
+        for (Equipamento equipamento : listaEquipamentos) {
+            JPanel cardEquipamento = criarCardEquipamento(equipamento);
+            equipamentosPanel.add(cardEquipamento);
+        }
+
+        equipamentosPanel.revalidate(); // Atualiza o layout
+        equipamentosPanel.repaint(); // Re-renderiza o painel
+    }
+
+    // Método para carregar equipamentos (mesmo de antes)
+    private List<Equipamento> carregarEquipamentos() {
+        EquipamentoController controlador = new EquipamentoController();
+        List<Equipamento> equipamentos = new ArrayList<>();
         List<Document> documentos = controlador.readTodosEquipamentos();
 
-        // Iterar sobre os documentos e criar instâncias de Equipamento
         for (Document doc : documentos) {
             String nomeEqui = doc.getString("nomeEqui");
             String codEquip = doc.getString("codEquip");
@@ -190,16 +189,11 @@ public class EquipamentoScreen extends JFrame {
             int qtdSensorEquip = doc.getInteger("qtdSensorEquip");
             String statusEquip = doc.getString("statusEquip");
 
-            // Cria uma instância do SensorController para buscar sensores
             SensorController sc = new SensorController();
+            List<Sensor> sensores = sc.readSensoresPorEquipamento(codEquip);
+            List<Manutencao> manutencoes = new ArrayList<>();
+            List<QrCode> qrCodes = new ArrayList<>();
 
-            // Aqui chamamos o método que busca os sensores associados ao equipamento
-            List<Sensor> sensores = sc.readSensoresPorEquipamento(codEquip); // Busque os sensores pelo código do
-                                                                             // equipamento
-            List<Manutencao> manutencoes = new ArrayList<>(); // Substitua por lógica real
-            List<QrCode> qrCodes = new ArrayList<>(); // Substitua por lógica real
-
-            // Criação do objeto Equipamento com os sensores carregados
             Equipamento equipamento = new Equipamento(nomeEqui, codEquip, dataCompraEquip, tipoEquip, fornecEquip,
                     qtdSensorEquip, statusEquip, sensores, manutencoes, qrCodes);
             equipamentos.add(equipamento);
